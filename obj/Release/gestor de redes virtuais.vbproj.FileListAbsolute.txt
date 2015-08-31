@@ -1,0 +1,12 @@
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Release\gestor de redes virtuais.exe.config
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Release\gestor de redes virtuais.exe
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Release\gestor de redes virtuais.pdb
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Release\gestor de redes virtuais.xml
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor_de_redes_virtuais.Form1.resources
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor de redes virtuais.exe
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor de redes virtuais.xml
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor de redes virtuais.pdb
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor de redes virtuais.vbprojResolveAssemblyReference.cache
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Release\gestor_de_redes_virtuais.defaultconfig.resources

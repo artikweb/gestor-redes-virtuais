@@ -1,0 +1,12 @@
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Debug\gestor de redes virtuais.exe.config
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Debug\gestor de redes virtuais.exe
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Debug\gestor de redes virtuais.pdb
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\bin\Debug\gestor de redes virtuais.xml
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor de redes virtuais.vbprojResolveAssemblyReference.cache
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor_de_redes_virtuais.Form1.resources
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor_de_redes_virtuais.Resources.resources
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor de redes virtuais.vbproj.GenerateResource.Cache
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor de redes virtuais.exe
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor de redes virtuais.xml
+d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor de redes virtuais.pdb
+d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor_de_redes_virtuais.defaultconfig.resources
