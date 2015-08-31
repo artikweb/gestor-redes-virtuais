@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.Win32
-
+'Gestor de Redes Virtuais para Windows 8 e Windows 10'
+'Desenvolvido por Emanuel Alves em Junho de 2015'
+'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 Public Class defaultconfig
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 

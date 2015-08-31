@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.Win32
-
+'Gestor de Redes Virtuais para Windows 8 e Windows 10'
+'Desenvolvido por Emanuel Alves em Junho de 2015'
+'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -37,13 +39,13 @@ Public Class Form1
         If (settingErrorCheck <> 1) Then
             Dim startupErrorCheck As Integer = applyCommand("netsh wlan start hostednetwork")
             If (startupErrorCheck = 1) Then
-                Console.WriteLine("fodeu gerau")
+                Console.WriteLine("that didnt work")
                 MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que não está ligado a nenhuma rede wireless. Verifique também se o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
             Else
                 MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
             End If
         Else
-            Console.WriteLine("fodeu gerau no principio")
+            Console.WriteLine("that didnt work either")
             MsgBox("Os dados introduzidos não são válidos." & vbNewLine & "As passwords têm que ter mais de 8 caracteres, corrija a configuração e tente de novo.", MessageBoxIcon.Error, "Ocorreu um erro")
         End If
 
