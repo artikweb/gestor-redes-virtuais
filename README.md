@@ -1,4 +1,4 @@
-# Gestor-de-Redes-Virtuais
+# Gestor de Redes Virtuais (AdHoc)
 Gestor de Redes Virtuais - Windows 8 e 10
 
 App para criar redes virtuais (adhoc/tether/hotspot etc.) com apenas 1 click.
