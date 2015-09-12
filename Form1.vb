@@ -3,6 +3,10 @@
 'Desenvolvido por Emanuel Alves em Junho de 2015'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 
+Public Class GlobalVariables
+    Public Shared networkIsUp As Int16 = 0
+End Class
+
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing) Is Nothing And My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing) Is Nothing) Then
@@ -17,6 +21,9 @@ Public Class Form1
             password.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
         End If
 
+    End Sub
+
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "yes" Then
             Button1_Click(sender, e)
         End If
@@ -54,7 +61,7 @@ Public Class Form1
                 green = Color.Lime
                 statebox.BackColor = green
                 statelabel.Text = "Rede Iniciada"
-
+                GlobalVariables.networkIsUp = 1
             End If
         Else
             Console.WriteLine("that didnt work either")
@@ -70,6 +77,7 @@ Public Class Form1
         ctrl = SystemColors.Control
         statebox.BackColor = ctrl
         statelabel.Text = "Rede Inativa"
+        GlobalVariables.networkIsUp = 0
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
