@@ -32,6 +32,7 @@ Public Class Form1
     End Function
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
         Dim ssidVar As String = ssid.Text
         Dim paswVar As String = password.Text
         Dim networkSettingValsCMD As String = "netsh wlan set hostednetwork mode=allow ssid=" + ssidVar + " key=" + paswVar
@@ -43,6 +44,11 @@ Public Class Form1
                 MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que não está ligado a nenhuma rede wireless. Verifique também se o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
             Else
                 MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
+                Dim green As Color
+                green = Color.Lime
+                statebox.BackColor = green
+                statelabel.Text = "Rede Iniciada"
+
             End If
         Else
             Console.WriteLine("that didnt work either")
@@ -54,6 +60,10 @@ Public Class Form1
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         applyCommand("netsh wlan stop hostednetwork")
         MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
+        Dim ctrl As Color
+        ctrl = SystemColors.Control
+        statebox.BackColor = ctrl
+        statelabel.Text = "Rede Inativa"
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -98,5 +108,10 @@ Public Class Form1
     Private Sub VerificarCompatibilidadeDoSistemaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerificarCompatibilidadeDoSistemaToolStripMenuItem.Click
         MsgBox("Será aberta uma página no seu browser. Necessita de uma ligação à internet. ", MessageBoxIcon.Information)
         Process.Start("http://emanuel-alves.com/GRV/config2.html")
+    End Sub
+
+    Private Sub ContactoToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ContactoToolStripMenuItem1.Click
+        MsgBox("Será aberta uma página no seu browser. Necessita de uma ligação à internet. ", MessageBoxIcon.Information)
+        Process.Start("http://emanuel-alves.com/contato.html")
     End Sub
 End Class
