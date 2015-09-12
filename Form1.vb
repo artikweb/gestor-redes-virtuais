@@ -3,10 +3,6 @@
 'Desenvolvido por Emanuel Alves em Junho de 2015'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 
-Public Class GlobalVariables
-    Public Shared networkIsUp As Int16 = 0
-End Class
-
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing) Is Nothing And My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing) Is Nothing) Then
@@ -43,6 +39,10 @@ Public Class Form1
         Console.WriteLine("codigo de erro é {0}", errorCode)
         applyCommand = errorCode
     End Function
+
+    Public Class GlobalVariables
+        Public Shared networkIsUp As Int16 = 0
+    End Class
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
