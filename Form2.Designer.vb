@@ -32,11 +32,13 @@ Partial Class defaultconfig
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.CheckBox2)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.ssiddefault)
@@ -44,7 +46,7 @@ Partial Class defaultconfig
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Location = New System.Drawing.Point(15, 53)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(311, 147)
+        Me.GroupBox1.Size = New System.Drawing.Size(311, 172)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Dados Padrão da Rede"
@@ -102,7 +104,7 @@ Partial Class defaultconfig
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(15, 206)
+        Me.Button1.Location = New System.Drawing.Point(15, 231)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(311, 23)
         Me.Button1.TabIndex = 11
@@ -111,7 +113,7 @@ Partial Class defaultconfig
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(15, 235)
+        Me.Button2.Location = New System.Drawing.Point(15, 260)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(311, 23)
         Me.Button2.TabIndex = 12
@@ -127,11 +129,21 @@ Partial Class defaultconfig
         Me.Label4.TabIndex = 13
         Me.Label4.Text = "2 - Clique ""Guardar Alterações"""
         '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(21, 144)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(207, 17)
+        Me.CheckBox2.TabIndex = 7
+        Me.CheckBox2.Text = "Iniciar a rede quando a aplicação abrir"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        '
         'defaultconfig
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(341, 271)
+        Me.ClientSize = New System.Drawing.Size(341, 295)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
@@ -141,7 +153,7 @@ Partial Class defaultconfig
         Me.MaximizeBox = False
         Me.Name = "defaultconfig"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
-        Me.Text = "Alterar configuração padrão"
+        Me.Text = "Definições"
         Me.TopMost = True
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
@@ -160,4 +172,5 @@ Partial Class defaultconfig
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Label4 As Label
+    Friend WithEvents CheckBox2 As CheckBox
 End Class

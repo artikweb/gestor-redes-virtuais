@@ -15,6 +15,10 @@ Public Class defaultconfig
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "yes")
         Else My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "no")
         End If
+        If (CheckBox2.Checked = True) Then
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "yes")
+        Else My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
+        End If
         MsgBox("Configuração padrão atualizada com sucesso!", MessageBoxIcon.Information)
         Me.Close()
     End Sub
@@ -26,12 +30,27 @@ Public Class defaultconfig
             pswdefault.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
         End If
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", Nothing) = "no" Then
+            CheckBox1.Checked = False
         Else
             CheckBox1.Checked = True
+        End If
+        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "no" Then
+            CheckBox2.Checked = False
+        Else
+            CheckBox2.Checked = True
         End If
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Me.Close()
+    End Sub
+
+    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+        If CheckBox2.Checked = True Then
+            CheckBox1.Checked = True
+            CheckBox1.Enabled = False
+        ElseIf CheckBox2.Checked = False Then
+            CheckBox1.Enabled = True
+        End If
     End Sub
 End Class

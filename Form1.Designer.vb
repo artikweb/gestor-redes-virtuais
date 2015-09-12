@@ -50,6 +50,7 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.statebox = New System.Windows.Forms.GroupBox()
         Me.statelabel = New System.Windows.Forms.Label()
+        Me.Button6 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -155,8 +156,8 @@ Partial Class Form1
         'AlterarConfiguraçãoPadrãoToolStripMenuItem
         '
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Name = "AlterarConfiguraçãoPadrãoToolStripMenuItem"
-        Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
-        Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Text = "Alterar Configuração Padrão"
+        Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Text = "Definições"
         '
         'LimparTudoToolStripMenuItem
         '
@@ -260,7 +261,7 @@ Partial Class Form1
         '
         Me.Button4.Location = New System.Drawing.Point(12, 381)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(311, 23)
+        Me.Button4.Size = New System.Drawing.Size(152, 23)
         Me.Button4.TabIndex = 15
         Me.Button4.Text = "Sair"
         Me.Button4.UseVisualStyleBackColor = True
@@ -268,7 +269,7 @@ Partial Class Form1
         'statebox
         '
         Me.statebox.Controls.Add(Me.statelabel)
-        Me.statebox.Location = New System.Drawing.Point(12, 213)
+        Me.statebox.Location = New System.Drawing.Point(12, 214)
         Me.statebox.Name = "statebox"
         Me.statebox.Size = New System.Drawing.Size(311, 34)
         Me.statebox.TabIndex = 16
@@ -277,17 +278,27 @@ Partial Class Form1
         'statelabel
         '
         Me.statelabel.AutoSize = True
-        Me.statelabel.Location = New System.Drawing.Point(122, 14)
+        Me.statelabel.Location = New System.Drawing.Point(122, 13)
         Me.statelabel.Name = "statelabel"
         Me.statelabel.Size = New System.Drawing.Size(68, 13)
         Me.statelabel.TabIndex = 0
         Me.statelabel.Text = "Rede Inativa"
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(171, 381)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(152, 23)
+        Me.Button6.TabIndex = 17
+        Me.Button6.Text = "Minimizar"
+        Me.Button6.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(337, 445)
+        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.statebox)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Label6)
@@ -345,4 +356,5 @@ Partial Class Form1
     Friend WithEvents Button4 As Button
     Friend WithEvents statebox As GroupBox
     Friend WithEvents statelabel As Label
+    Friend WithEvents Button6 As Button
 End Class
