@@ -11,14 +11,14 @@ d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de red
 d:\documentos\visual studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor de redes virtuais.pdb
 d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de redes virtuais\obj\Debug\gestor_de_redes_virtuais.defaultconfig.resources
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.exe.config
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.exe
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.pdb
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.xml
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor de redes virtuais.vbprojResolveAssemblyReference.cache
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.GlobalVariables.resources
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.defaultconfig.resources
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.Resources.resources
-\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor de redes virtuais.vbproj.GenerateResource.Cache
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\Gestor de Redes Virtuais.exe
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\Gestor de Redes Virtuais.xml
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\Gestor de Redes Virtuais.pdb
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor de redes virtuais.vbprojResolveAssemblyReference.cache
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.Form1.resources
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.defaultconfig.resources
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.Resources.resources
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor de redes virtuais.vbproj.GenerateResource.Cache
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.exe
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.pdb
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\bin\Debug\Gestor de Redes Virtuais.xml
