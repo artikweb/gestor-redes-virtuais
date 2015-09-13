@@ -51,6 +51,7 @@ Partial Class Form1
         Me.statebox = New System.Windows.Forms.GroupBox()
         Me.statelabel = New System.Windows.Forms.Label()
         Me.Button6 = New System.Windows.Forms.Button()
+        Me.ActualizaçãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -162,18 +163,18 @@ Partial Class Form1
         'LimparTudoToolStripMenuItem
         '
         Me.LimparTudoToolStripMenuItem.Name = "LimparTudoToolStripMenuItem"
-        Me.LimparTudoToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+        Me.LimparTudoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.LimparTudoToolStripMenuItem.Text = "Limpar tudo"
         '
         'SairToolStripMenuItem
         '
         Me.SairToolStripMenuItem.Name = "SairToolStripMenuItem"
-        Me.SairToolStripMenuItem.Size = New System.Drawing.Size(211, 22)
+        Me.SairToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SairToolStripMenuItem.Text = "Sair"
         '
         'AjudaToolStripMenuItem
         '
-        Me.AjudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SobreToolStripMenuItem, Me.ContactoToolStripMenuItem, Me.ContactoToolStripMenuItem1})
+        Me.AjudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SobreToolStripMenuItem, Me.ContactoToolStripMenuItem, Me.ContactoToolStripMenuItem1, Me.ActualizaçãoToolStripMenuItem})
         Me.AjudaToolStripMenuItem.Name = "AjudaToolStripMenuItem"
         Me.AjudaToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
         Me.AjudaToolStripMenuItem.Text = "Ajuda"
@@ -255,7 +256,7 @@ Partial Class Form1
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(38, 12)
         Me.Label6.TabIndex = 6
-        Me.Label6.Text = "v0.9.1B"
+        Me.Label6.Text = "v0.9.8B"
         '
         'Button4
         '
@@ -292,6 +293,12 @@ Partial Class Form1
         Me.Button6.TabIndex = 17
         Me.Button6.Text = "Minimizar"
         Me.Button6.UseVisualStyleBackColor = True
+        '
+        'ActualizaçãoToolStripMenuItem
+        '
+        Me.ActualizaçãoToolStripMenuItem.Name = "ActualizaçãoToolStripMenuItem"
+        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.ActualizaçãoToolStripMenuItem.Text = "Actualização"
         '
         'Form1
         '
@@ -357,4 +364,5 @@ Partial Class Form1
     Friend WithEvents statebox As GroupBox
     Friend WithEvents statelabel As Label
     Friend WithEvents Button6 As Button
+    Friend WithEvents ActualizaçãoToolStripMenuItem As ToolStripMenuItem
 End Class

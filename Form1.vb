@@ -16,14 +16,16 @@ Public Class Form1
             ssid.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing)
             password.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
         End If
-
     End Sub
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "yes" Then
             Button1_Click(sender, e)
         End If
+        checkforUpdates()
     End Sub
+
+
 
     Function applyCommand(ByVal command As String) As Integer
         Dim commandDispatcherSettings As New ProcessStartInfo()
@@ -38,6 +40,32 @@ Public Class Form1
         Dim errorCode As Integer = commandDispatcherProcess.ExitCode
         Console.WriteLine("codigo de erro é {0}", errorCode)
         applyCommand = errorCode
+    End Function
+
+    Function checkforUpdates() As Integer
+        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/latestversion.txt")
+        Dim response As System.Net.HttpWebResponse
+        Dim sr As System.IO.StreamReader
+        Dim newestversion As String
+        Try
+            response = request.GetResponse()
+            sr = New System.IO.StreamReader(response.GetResponseStream())
+            newestversion = sr.ReadToEnd()
+        Catch ex As Exception
+            Console.WriteLine("internet update crashed")
+            MsgBox("Não foi possível procurar por uma nova versão." & vbNewLine & "Certifique-se que está ligado à internet.", MessageBoxIcon.Error, "Ocorreu um erro")
+            'newestversion = Application.ProductVersion - 1
+        End Try
+        Dim currentversion As String = Application.ProductVersion
+        Console.WriteLine("current version is {0} ", currentversion)
+        Console.WriteLine("new version is {0} ", newestversion)
+        If (newestversion IsNot currentversion) Then
+            MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Será aberta uma página web onde poderá transferir a mesma." & vbNewLine & "Substitua o ficheiro «Gestor de Redes Virtuais» pelo novo", MessageBoxIcon.Information)
+            Process.Start("http://emanuel-alves.com/GRV/download.html")
+            Return 0
+        Else
+            Return 1
+        End If
     End Function
 
     Public Class GlobalVariables
@@ -127,5 +155,11 @@ Public Class Form1
     Private Sub ContactoToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ContactoToolStripMenuItem1.Click
         MsgBox("Será aberta uma página no seu browser. Necessita de uma ligação à internet. ", MessageBoxIcon.Information)
         Process.Start("http://emanuel-alves.com/contato.html")
+    End Sub
+
+    Private Sub ActualizaçãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ActualizaçãoToolStripMenuItem.Click
+        If (checkforUpdates() = 1) Then
+            MsgBox("Está a utilizar a versão mais recente do Gestor de Redes Virtuais.", MessageBoxIcon.Information, "Nenhuma Atualização Disponível")
+        End If
     End Sub
 End Class
