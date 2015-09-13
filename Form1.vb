@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.Win32
 'Gestor de Redes Virtuais para Windows 8 e Windows 10'
-'Desenvolvido por Emanuel Alves em Junho de 2015'
+'Desenvolvido por Emanuel Alves'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 
 Public Class Form1
@@ -10,20 +10,43 @@ Public Class Form1
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", "Masterlock64")
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "no")
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
+        End If
+
+        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "") Then
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
         End If
 
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", Nothing) = "yes" Then
             ssid.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing)
             password.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
         End If
+
+
     End Sub
+
+    Public Class GlobalVariables
+        Public Shared networkIsUp As Int16 = 0
+        Public Shared currentVersion As String = Application.ProductVersion.ToString
+
+    End Class
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "yes" Then
             Button1_Click(sender, e)
         End If
-        checkforUpdates()
         currentVersionLabel.Text = GlobalVariables.currentVersion
+        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "yes" Then
+            Dim latestCheck As Date = CDate(My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing))
+            If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
+                Console.WriteLine("Running auto-update")
+                checkforUpdates()
+            Else
+                Console.WriteLine("auto updater ran less than 5 days ago, skipping")
+            End If
+        End If
+
     End Sub
 
 
@@ -58,25 +81,27 @@ Public Class Form1
             newestversion = Application.ProductVersion
         End Try
         Console.WriteLine("current version is {0} ", GlobalVariables.currentVersion)
-        Console.WriteLine("new version is {0} ", newestversion)
+        Console.WriteLine("version available online is {0} ", newestversion)
         If (newestversion <> GlobalVariables.currentVersion) Then
             If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
                 Process.Start("http://emanuel-alves.com/GRV/download.html")
+                Dim fakedate As String = "01-01-1994"
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", fakedate)
                 Return 0
             Else
                 Me.Height = 475
                 updateWarningLabel.Visible = True
                 Return 0
             End If
+
         Else
+            Dim todaysdate As String = String.Format("{0:dd/MM/yyyy}", DateTime.Now)
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", todaysdate)
             Return 1
         End If
     End Function
 
-    Public Class GlobalVariables
-        Public Shared networkIsUp As Int16 = 0
-        Public Shared currentVersion As String = Application.ProductVersion.ToString
-    End Class
+
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 

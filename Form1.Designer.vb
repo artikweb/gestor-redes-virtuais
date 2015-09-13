@@ -261,9 +261,9 @@ Partial Class Form1
         Me.currentVersionLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.currentVersionLabel.Location = New System.Drawing.Point(10, 410)
         Me.currentVersionLabel.Name = "currentVersionLabel"
-        Me.currentVersionLabel.Size = New System.Drawing.Size(38, 12)
+        Me.currentVersionLabel.Size = New System.Drawing.Size(36, 12)
         Me.currentVersionLabel.TabIndex = 6
-        Me.currentVersionLabel.Text = "v0.9.8B"
+        Me.currentVersionLabel.Text = "version"
         '
         'Button4
         '

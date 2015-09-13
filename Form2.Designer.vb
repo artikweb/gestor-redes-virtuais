@@ -23,43 +23,32 @@ Partial Class defaultconfig
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ssiddefault = New System.Windows.Forms.TextBox()
         Me.pswdefault = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.CheckBox2)
-        Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.ssiddefault)
         Me.GroupBox1.Controls.Add(Me.pswdefault)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Location = New System.Drawing.Point(15, 53)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(311, 172)
+        Me.GroupBox1.Size = New System.Drawing.Size(311, 121)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Dados Padrão da Rede"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(21, 120)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(281, 17)
-        Me.CheckBox1.TabIndex = 6
-        Me.CheckBox1.Text = "Introduzir dados padrão automaticamente no arranque"
-        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -93,6 +82,26 @@ Partial Class defaultconfig
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Password Padrão"
         '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.Location = New System.Drawing.Point(15, 203)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(207, 17)
+        Me.CheckBox2.TabIndex = 7
+        Me.CheckBox2.Text = "Iniciar a rede quando a aplicação abrir"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(15, 180)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(281, 17)
+        Me.CheckBox1.TabIndex = 6
+        Me.CheckBox1.Text = "Introduzir dados padrão automaticamente no arranque"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'Label3
         '
         Me.Label3.AutoSize = True
@@ -104,7 +113,7 @@ Partial Class defaultconfig
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(15, 231)
+        Me.Button1.Location = New System.Drawing.Point(15, 251)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(311, 23)
         Me.Button1.TabIndex = 11
@@ -113,7 +122,7 @@ Partial Class defaultconfig
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(15, 260)
+        Me.Button2.Location = New System.Drawing.Point(15, 280)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(311, 23)
         Me.Button2.TabIndex = 12
@@ -129,21 +138,24 @@ Partial Class defaultconfig
         Me.Label4.TabIndex = 13
         Me.Label4.Text = "2 - Clique ""Guardar Alterações"""
         '
-        'CheckBox2
+        'CheckBox3
         '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(21, 144)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(207, 17)
-        Me.CheckBox2.TabIndex = 7
-        Me.CheckBox2.Text = "Iniciar a rede quando a aplicação abrir"
-        Me.CheckBox2.UseVisualStyleBackColor = True
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(15, 226)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(230, 17)
+        Me.CheckBox3.TabIndex = 14
+        Me.CheckBox3.Text = "Procurar por atualizações automaticamente"
+        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'defaultconfig
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(341, 295)
+        Me.ClientSize = New System.Drawing.Size(341, 325)
+        Me.Controls.Add(Me.CheckBox3)
+        Me.Controls.Add(Me.CheckBox1)
+        Me.Controls.Add(Me.CheckBox2)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
@@ -173,4 +185,5 @@ Partial Class defaultconfig
     Friend WithEvents Button2 As Button
     Friend WithEvents Label4 As Label
     Friend WithEvents CheckBox2 As CheckBox
+    Friend WithEvents CheckBox3 As CheckBox
 End Class
