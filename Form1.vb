@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.Win32
 'Gestor de Redes Virtuais para Windows 8 e Windows 10'
-'Desenvolvido por Emanuel Alves em Junho de 2015'
+'Desenvolvido por Emanuel Alves'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 
 Public Class Form1
@@ -8,13 +8,54 @@ Public Class Form1
         If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing) Is Nothing And My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing) Is Nothing) Then
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", "RedeAdHocVirtual")
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", "Masterlock64")
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "no")
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
+        End If
+
+        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "") Then
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
         End If
 
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", Nothing) = "yes" Then
             ssid.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing)
             password.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
         End If
+
+
     End Sub
+
+    Public Class GlobalVariables
+        Public Shared networkIsUp As Int16 = 0
+        Public Shared currentVersion As String = Application.ProductVersion.ToString
+        Public Shared fakedate As String = "13-09-2014"
+
+    End Class
+
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
+        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "yes" Then
+            Button1_Click(sender, e)
+        End If
+        currentVersionLabel.Text = GlobalVariables.currentVersion
+        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "yes" Then
+            Dim latestCheckDate As String = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
+            If latestCheckDate = "" Then
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", "13-09-2014")
+                latestCheckDate = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
+            End If
+            Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd-MM-yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
+            If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
+                Console.WriteLine("Running auto-update")
+                checkforUpdates()
+            Else
+                Console.WriteLine("auto updater ran less than 5 days ago, skipping")
+            End If
+        End If
+
+    End Sub
+
+
 
     Function applyCommand(ByVal command As String) As Integer
         Dim commandDispatcherSettings As New ProcessStartInfo()
@@ -31,7 +72,46 @@ Public Class Form1
         applyCommand = errorCode
     End Function
 
+    Function checkforUpdates() As Integer
+        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/latestversion.txt")
+        Dim response As System.Net.HttpWebResponse
+        Dim sr As System.IO.StreamReader
+        Dim newestversion As String
+        Try
+            response = request.GetResponse()
+            sr = New System.IO.StreamReader(response.GetResponseStream())
+            newestversion = sr.ReadToEnd()
+        Catch ex As Exception
+            Console.WriteLine("internet update crashed with {0}", ex.ToString)
+            MsgBox("Não foi possível procurar por uma nova versão." & vbNewLine & "Certifique-se que está ligado à internet.", MessageBoxIcon.Error, "Ocorreu um erro")
+            newestversion = Application.ProductVersion
+        End Try
+        Console.WriteLine("current version is {0} ", GlobalVariables.currentVersion)
+        Console.WriteLine("version available online is {0} ", newestversion)
+        If (newestversion <> GlobalVariables.currentVersion) Then
+            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
+                Process.Start("http://emanuel-alves.com/GRV/download.html")
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", GlobalVariables.fakedate)
+                Return 0
+            Else
+                Me.Height += 20
+                updateWarningLabel.Visible = True
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", GlobalVariables.fakedate)
+                Return 0
+            End If
+
+        Else
+            Dim todaysdate As String = String.Format("{0:dd-MM-yyyy}", DateTime.Now)
+            Console.WriteLine("todaysdate is {0}", todaysdate.ToString)
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", todaysdate)
+            Return 1
+        End If
+    End Function
+
+
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
         Dim ssidVar As String = ssid.Text
         Dim paswVar As String = password.Text
         Dim networkSettingValsCMD As String = "netsh wlan set hostednetwork mode=allow ssid=" + ssidVar + " key=" + paswVar
@@ -43,6 +123,11 @@ Public Class Form1
                 MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que não está ligado a nenhuma rede wireless. Verifique também se o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
             Else
                 MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
+                Dim green As Color
+                green = Color.Lime
+                statebox.BackColor = green
+                statelabel.Text = "Rede Iniciada"
+                GlobalVariables.networkIsUp = 1
             End If
         Else
             Console.WriteLine("that didnt work either")
@@ -54,6 +139,11 @@ Public Class Form1
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         applyCommand("netsh wlan stop hostednetwork")
         MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
+        Dim ctrl As Color
+        ctrl = SystemColors.Control
+        statebox.BackColor = ctrl
+        statelabel.Text = "Rede Inativa"
+        GlobalVariables.networkIsUp = 0
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -62,7 +152,7 @@ Public Class Form1
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
-        MsgBox("Gestor de Redes Virtuais - Versão 0.9.1-Beta" & vbNewLine & "Esta aplicação em VB foi desenvolvida por Emanuel Alves em Junho de 2015." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
+        MsgBox("Gestor de Redes Virtuais - Versão " & GlobalVariables.currentVersion & vbNewLine & "Esta aplicação em VB é desenvolvida e mantida por Emanuel Alves." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -98,5 +188,16 @@ Public Class Form1
     Private Sub VerificarCompatibilidadeDoSistemaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerificarCompatibilidadeDoSistemaToolStripMenuItem.Click
         MsgBox("Será aberta uma página no seu browser. Necessita de uma ligação à internet. ", MessageBoxIcon.Information)
         Process.Start("http://emanuel-alves.com/GRV/config2.html")
+    End Sub
+
+    Private Sub ContactoToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ContactoToolStripMenuItem1.Click
+        MsgBox("Será aberta uma página no seu browser. Necessita de uma ligação à internet. ", MessageBoxIcon.Information)
+        Process.Start("http://emanuel-alves.com/contato.html")
+    End Sub
+
+    Private Sub ActualizaçãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ActualizaçãoToolStripMenuItem.Click
+        If (checkforUpdates() = 1) Then
+            MsgBox("Está a utilizar a versão mais recente do Gestor de Redes Virtuais.", MessageBoxIcon.Information, "Nenhuma Atualização Disponível")
+        End If
     End Sub
 End Class
