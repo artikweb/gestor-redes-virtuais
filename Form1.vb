@@ -23,6 +23,7 @@ Public Class Form1
             Button1_Click(sender, e)
         End If
         checkforUpdates()
+        currentVersionLabel.Text = GlobalVariables.currentVersion
     End Sub
 
 
@@ -52,17 +53,21 @@ Public Class Form1
             sr = New System.IO.StreamReader(response.GetResponseStream())
             newestversion = sr.ReadToEnd()
         Catch ex As Exception
-            Console.WriteLine("internet update crashed")
+            Console.WriteLine("internet update crashed with {0}", ex.ToString)
             MsgBox("Não foi possível procurar por uma nova versão." & vbNewLine & "Certifique-se que está ligado à internet.", MessageBoxIcon.Error, "Ocorreu um erro")
-            'newestversion = Application.ProductVersion - 1
+            newestversion = Application.ProductVersion
         End Try
-        Dim currentversion As String = Application.ProductVersion
-        Console.WriteLine("current version is {0} ", currentversion)
+        Console.WriteLine("current version is {0} ", GlobalVariables.currentVersion)
         Console.WriteLine("new version is {0} ", newestversion)
-        If (newestversion IsNot currentversion) Then
-            MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Será aberta uma página web onde poderá transferir a mesma." & vbNewLine & "Substitua o ficheiro «Gestor de Redes Virtuais» pelo novo", MessageBoxIcon.Information)
-            Process.Start("http://emanuel-alves.com/GRV/download.html")
-            Return 0
+        If (newestversion <> GlobalVariables.currentVersion) Then
+            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
+                Process.Start("http://emanuel-alves.com/GRV/download.html")
+                Return 0
+            Else
+                Me.Height = 475
+                updateWarningLabel.Visible = True
+                Return 0
+            End If
         Else
             Return 1
         End If
@@ -70,6 +75,7 @@ Public Class Form1
 
     Public Class GlobalVariables
         Public Shared networkIsUp As Int16 = 0
+        Public Shared currentVersion As String = Application.ProductVersion.ToString
     End Class
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -114,7 +120,7 @@ Public Class Form1
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
-        MsgBox("Gestor de Redes Virtuais - Versão 0.9.1-Beta" & vbNewLine & "Esta aplicação em VB foi desenvolvida por Emanuel Alves em Junho de 2015." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
+        MsgBox("Gestor de Redes Virtuais - Versão " & GlobalVariables.currentVersion & vbNewLine & "Esta aplicação em VB é desenvolvida e mantida por Emanuel Alves." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
