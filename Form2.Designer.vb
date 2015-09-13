@@ -143,9 +143,9 @@ Partial Class defaultconfig
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Location = New System.Drawing.Point(15, 226)
         Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(230, 17)
+        Me.CheckBox3.Size = New System.Drawing.Size(297, 17)
         Me.CheckBox3.TabIndex = 14
-        Me.CheckBox3.Text = "Procurar por atualizações automaticamente"
+        Me.CheckBox3.Text = "Procurar por atualizações automaticamente a cada 5 dias"
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'defaultconfig

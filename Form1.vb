@@ -38,7 +38,8 @@ Public Class Form1
         End If
         currentVersionLabel.Text = GlobalVariables.currentVersion
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "yes" Then
-            Dim latestCheck As Date = CDate(My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing))
+            Dim latestCheckDate As String = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
+            Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd/MM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
             If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
                 Console.WriteLine("Running auto-update")
                 checkforUpdates()
