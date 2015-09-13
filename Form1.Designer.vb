@@ -38,11 +38,11 @@ Partial Class Form1
         Me.SairToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AjudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SobreToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContactoToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ActualizaçãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContactoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConfigurarPlacaDeRedeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContactoToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ActualizaçãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
@@ -51,7 +51,6 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.statebox = New System.Windows.Forms.GroupBox()
         Me.statelabel = New System.Windows.Forms.Label()
-        Me.Button6 = New System.Windows.Forms.Button()
         Me.updateWarningLabel = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -186,6 +185,18 @@ Partial Class Form1
         Me.SobreToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
         Me.SobreToolStripMenuItem.Text = "Sobre"
         '
+        'ContactoToolStripMenuItem1
+        '
+        Me.ContactoToolStripMenuItem1.Name = "ContactoToolStripMenuItem1"
+        Me.ContactoToolStripMenuItem1.Size = New System.Drawing.Size(173, 22)
+        Me.ContactoToolStripMenuItem1.Text = "Contacto"
+        '
+        'ActualizaçãoToolStripMenuItem
+        '
+        Me.ActualizaçãoToolStripMenuItem.Name = "ActualizaçãoToolStripMenuItem"
+        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+        Me.ActualizaçãoToolStripMenuItem.Text = "Procurar Atualização"
+        '
         'ContactoToolStripMenuItem
         '
         Me.ContactoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigurarPlacaDeRedeToolStripMenuItem, Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem})
@@ -204,18 +215,6 @@ Partial Class Form1
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Name = "VerificarCompatibilidadeDoSistemaToolStripMenuItem"
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Text = "Verificar compatibilidade do sistema"
-        '
-        'ContactoToolStripMenuItem1
-        '
-        Me.ContactoToolStripMenuItem1.Name = "ContactoToolStripMenuItem1"
-        Me.ContactoToolStripMenuItem1.Size = New System.Drawing.Size(173, 22)
-        Me.ContactoToolStripMenuItem1.Text = "Contacto"
-        '
-        'ActualizaçãoToolStripMenuItem
-        '
-        Me.ActualizaçãoToolStripMenuItem.Name = "ActualizaçãoToolStripMenuItem"
-        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
-        Me.ActualizaçãoToolStripMenuItem.Text = "Procurar Atualização"
         '
         'Button3
         '
@@ -269,7 +268,7 @@ Partial Class Form1
         '
         Me.Button4.Location = New System.Drawing.Point(12, 381)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(152, 23)
+        Me.Button4.Size = New System.Drawing.Size(311, 23)
         Me.Button4.TabIndex = 15
         Me.Button4.Text = "Sair"
         Me.Button4.UseVisualStyleBackColor = True
@@ -292,15 +291,6 @@ Partial Class Form1
         Me.statelabel.TabIndex = 0
         Me.statelabel.Text = "Rede Inativa"
         '
-        'Button6
-        '
-        Me.Button6.Location = New System.Drawing.Point(171, 381)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(152, 23)
-        Me.Button6.TabIndex = 17
-        Me.Button6.Text = "Minimizar"
-        Me.Button6.UseVisualStyleBackColor = True
-        '
         'updateWarningLabel
         '
         Me.updateWarningLabel.AutoSize = True
@@ -318,7 +308,6 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(337, 430)
         Me.Controls.Add(Me.updateWarningLabel)
-        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.statebox)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.currentVersionLabel)
@@ -376,7 +365,6 @@ Partial Class Form1
     Friend WithEvents Button4 As Button
     Friend WithEvents statebox As GroupBox
     Friend WithEvents statelabel As Label
-    Friend WithEvents Button6 As Button
     Friend WithEvents ActualizaçãoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents updateWarningLabel As Label
 End Class
