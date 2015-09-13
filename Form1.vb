@@ -29,6 +29,7 @@ Public Class Form1
     Public Class GlobalVariables
         Public Shared networkIsUp As Int16 = 0
         Public Shared currentVersion As String = Application.ProductVersion.ToString
+        Public Shared fakedate As String = "13-09-2014"
 
     End Class
 
@@ -39,7 +40,11 @@ Public Class Form1
         currentVersionLabel.Text = GlobalVariables.currentVersion
         If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "yes" Then
             Dim latestCheckDate As String = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
-            Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd/MM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
+            If latestCheckDate = "" Then
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", "13-09-2014")
+                latestCheckDate = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
+            End If
+            Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd-MM-yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
             If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
                 Console.WriteLine("Running auto-update")
                 checkforUpdates()
@@ -86,17 +91,18 @@ Public Class Form1
         If (newestversion <> GlobalVariables.currentVersion) Then
             If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
                 Process.Start("http://emanuel-alves.com/GRV/download.html")
-                Dim fakedate As String = "01-01-1994"
-                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", fakedate)
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", GlobalVariables.fakedate)
                 Return 0
             Else
-                Me.Height = 475
+                Me.Height += 20
                 updateWarningLabel.Visible = True
+                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", GlobalVariables.fakedate)
                 Return 0
             End If
 
         Else
-            Dim todaysdate As String = String.Format("{0:dd/MM/yyyy}", DateTime.Now)
+            Dim todaysdate As String = String.Format("{0:dd-MM-yyyy}", DateTime.Now)
+            Console.WriteLine("todaysdate is {0}", todaysdate.ToString)
             My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", todaysdate)
             Return 1
         End If
