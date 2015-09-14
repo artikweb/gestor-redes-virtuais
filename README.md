@@ -8,4 +8,4 @@ Atualmente apenas dispoível em Português.
 DOWNLOAD (versão compilada): https://db.tt/UMeemJEB
 Aviso: Esta aplicação não tem nenhuma validação com certificado e, por esse motivo, o Windows poderá alertar o utilizador aquando a primeira utilização.
 
-![alt tag](https://dl.dropboxusercontent.com/u/15929793/Screenshot_5.jpg)
+![alt tag](https://dl.dropboxusercontent.com/u/15929793/Screenshot_29.jpg)
