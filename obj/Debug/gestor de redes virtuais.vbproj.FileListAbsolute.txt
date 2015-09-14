@@ -22,3 +22,4 @@ d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de red
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\Gestor de Redes Virtuais.xml
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\Gestor de Redes Virtuais.pdb
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.Form1.resources
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Debug\gestor_de_redes_virtuais.Form3.resources

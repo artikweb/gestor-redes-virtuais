@@ -152,7 +152,8 @@ Public Class Form1
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
-        MsgBox("Gestor de Redes Virtuais - Versão " & GlobalVariables.currentVersion & vbNewLine & "Esta aplicação em VB é desenvolvida e mantida por Emanuel Alves." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
+        'MsgBox("Gestor de Redes Virtuais - Versão " & GlobalVariables.currentVersion & vbNewLine & "Esta aplicação em VB é desenvolvida e mantida por Emanuel Alves." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
+        Form3.Show()
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
