@@ -7,43 +7,52 @@ Public Class defaultconfig
 
     End Sub
 
+    Function setValue(ByVal regname As String, ByVal regval As String) As Integer
+        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", regname, regval)
+        Return vbNull
+    End Function
+
+    Function getValue(ByVal regname As String) As String
+        Dim localvar As String = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", regname, Nothing)
+        Return localvar
+    End Function
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        My.Computer.Registry.CurrentUser.CreateSubKey("GestorRedesVirtuais")
-        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", ssiddefault.Text)
-        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", pswdefault.Text)
+        setValue("ssidPadrao", ssiddefault.Text)
+        setValue("pswPadrao", pswdefault.Text)
         If (CheckBox1.Checked = True) Then
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "yes")
-        Else My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "no")
+            setValue("defaultStartup", "yes")
+        Else setValue("defaultStartup", "no")
         End If
         If (CheckBox2.Checked = True) Then
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "yes")
-        Else My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
+            setValue("autoNetwork", "yes")
+        Else setValue("autoNetwork", "no")
         End If
         If (CheckBox3.Checked = True) Then
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
-        Else My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "no")
+            setValue("autoUpdate", "yes")
+        Else setValue("autoUpdate", "no")
         End If
         MsgBox("Configuração padrão atualizada com sucesso!", MessageBoxIcon.Information)
         Me.Close()
     End Sub
 
     Private Sub defaultconfig_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing) Is Nothing And My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing) Is Nothing) Then
+        If (getValue("ssidPadrao") Is Nothing And getValue("pswPadrao") Is Nothing) Then
         Else
-            ssiddefault.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing)
-            pswdefault.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
+            ssiddefault.Text = getValue("ssidPadrao")
+            pswdefault.Text = getValue("pswPadrao")
         End If
-        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", Nothing) = "no") Or (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", Nothing) = "") Then
+        If (getValue("defaultStartup") = "no") Or (getValue("defaultStartup") = "") Then
             CheckBox1.Checked = False
         Else
             CheckBox1.Checked = True
         End If
-        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "no") Or (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "") Then
+        If (getValue("autoNetwork") = "no") Or (getValue("autoNetwork") = "") Then
             CheckBox2.Checked = False
         Else
             CheckBox2.Checked = True
         End If
-        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "no") Or (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "") Then
+        If (getValue("autoUpdate") = "no") Or (getValue("autoUpdate") = "") Then
             CheckBox3.Checked = False
         Else
             CheckBox3.Checked = True

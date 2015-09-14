@@ -5,22 +5,23 @@
 
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing) Is Nothing And My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing) Is Nothing) Then
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", "RedeAdHocVirtual")
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", "Masterlock64")
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", "no")
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
+        My.Computer.Registry.CurrentUser.CreateSubKey("GestorRedesVirtuais")
+        If (getValue("ssidPadrao") Is Nothing And getValue("pswPadrao") Is Nothing) Then
+            setValue("ssidPadrao", "RedeAdHocVirtual")
+            setValue("pswPadrao", "Masterlock64")
+            setValue("autoNetwork", "no")
+            setValue("defaultStartup", "no")
+            setValue("autoUpdate", "yes")
         End If
 
-        If (My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "") Then
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", "yes")
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", "no")
+        If (getValue("autoUpdate") = "") Then
+            setValue("autoUpdate", "yes")
+            setValue("autoNetwork", "no")
         End If
 
-        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "defaultStartup", Nothing) = "yes" Then
-            ssid.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing)
-            password.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
+        If getValue("defaultStartup") = "yes" Then
+            ssid.Text = getValue("ssidPadrao")
+            password.Text = getValue("pswPadrao")
         End If
 
 
@@ -34,15 +35,15 @@ Public Class Form1
     End Class
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
-        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoNetwork", Nothing) = "yes" Then
+        If getValue("autoNetwork") = "yes" Then
             Button1_Click(sender, e)
         End If
         currentVersionLabel.Text = GlobalVariables.currentVersion
-        If My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "autoUpdate", Nothing) = "yes" Then
-            Dim latestCheckDate As String = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
+        If getValue("autoUpdate") = "yes" Then
+            Dim latestCheckDate As String = getValue("lastUpdateCheck")
             If latestCheckDate = "" Then
-                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", "13-09-2014")
-                latestCheckDate = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", Nothing)
+                setValue("lastUpdateCheck", GlobalVariables.fakedate)
+                latestCheckDate = GlobalVariables.fakedate
             End If
             Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd-MM-yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
             If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
@@ -55,6 +56,15 @@ Public Class Form1
 
     End Sub
 
+    Function setValue(ByVal regname As String, ByVal regval As String) As Integer
+        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", regname, regval)
+        Return vbNull
+    End Function
+
+    Function getValue(ByVal regname As String) As String
+        Dim localvar As String = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", regname, Nothing)
+        Return localvar
+    End Function
 
 
     Function applyCommand(ByVal command As String) As Integer
@@ -91,19 +101,19 @@ Public Class Form1
         If (newestversion <> GlobalVariables.currentVersion) Then
             If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
                 Process.Start("http://emanuel-alves.com/GRV/download.html")
-                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", GlobalVariables.fakedate)
+                setValue("lastUpdateCheck", GlobalVariables.fakedate)
                 Return 0
             Else
                 Me.Height += 20
                 updateWarningLabel.Visible = True
-                My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", GlobalVariables.fakedate)
+                setValue("lastUpdateCheck", GlobalVariables.fakedate)
                 Return 0
             End If
 
         Else
             Dim todaysdate As String = String.Format("{0:dd-MM-yyyy}", DateTime.Now)
             Console.WriteLine("todaysdate is {0}", todaysdate.ToString)
-            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "lastUpdateCheck", todaysdate)
+            setValue("lastUpdateCheck", todaysdate)
             Return 1
         End If
     End Function
@@ -147,8 +157,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        ssid.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "ssidPadrao", Nothing)
-        password.Text = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", "pswPadrao", Nothing)
+        ssid.Text = getValue("ssidPadrao")
+        password.Text = getValue("pswPadrao")
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
