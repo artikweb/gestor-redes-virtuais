@@ -22,3 +22,4 @@ d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de red
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor_de_redes_virtuais.defaultconfig.resources
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache
+\\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor_de_redes_virtuais.Form3.resources

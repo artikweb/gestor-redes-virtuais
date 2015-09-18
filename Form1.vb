@@ -1,10 +1,13 @@
 ﻿Imports Microsoft.Win32
+Imports System.IO
+Imports System.Reflection
 'Gestor de Redes Virtuais para Windows 8 e Windows 10'
 'Desenvolvido por Emanuel Alves'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
 
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         My.Computer.Registry.CurrentUser.CreateSubKey("GestorRedesVirtuais")
         If (getValue("ssidPadrao") Is Nothing And getValue("pswPadrao") Is Nothing) Then
             setValue("ssidPadrao", "RedeAdHocVirtual")
@@ -12,6 +15,7 @@ Public Class Form1
             setValue("autoNetwork", "no")
             setValue("defaultStartup", "no")
             setValue("autoUpdate", "yes")
+            setValue("changelogShown", "yes")
         End If
 
         If (getValue("autoUpdate") = "") Then
@@ -24,15 +28,17 @@ Public Class Form1
             password.Text = getValue("pswPadrao")
         End If
 
-
+        BackgroundWorker1.RunWorkerAsync()
     End Sub
 
-    Public Class GlobalVariables
-        Public Shared networkIsUp As Int16 = 0
-        Public Shared currentVersion As String = Application.ProductVersion.ToString
-        Public Shared fakedate As String = "13-09-2014"
-
-    End Class
+    Private Const CP_NOCLOSE_BUTTON As Integer = &H200
+    Protected Overloads Overrides ReadOnly Property CreateParams() As CreateParams
+        Get
+            Dim myCp As CreateParams = MyBase.CreateParams
+            myCp.ClassStyle = myCp.ClassStyle Or CP_NOCLOSE_BUTTON
+            Return myCp
+        End Get
+    End Property
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
         If getValue("autoNetwork") = "yes" Then
@@ -53,8 +59,56 @@ Public Class Form1
                 Console.WriteLine("auto updater ran less than 5 days ago, skipping")
             End If
         End If
-
     End Sub
+
+    Private Sub BackgroundWorker1_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+        Dim _imageStream As Stream
+        Dim _assembly As [Assembly]
+        _assembly = [Assembly].GetExecutingAssembly()
+        _imageStream = _assembly.GetManifestResourceStream("gestor_de_redes_virtuais.wifi.ico")
+        Try
+            _assembly = [Assembly].GetExecutingAssembly()
+            _imageStream = _assembly.GetManifestResourceStream("gestor_de_redes_virtuais.wifi.ico")
+        Catch ex As Exception
+            MessageBox.Show("Resource wasn't found!", "Error")
+        End Try
+        NotifyIcon3.Icon = New Icon(_imageStream)
+        NotifyIcon3.Text = "Gestor de Redes Virtuais"
+        NotifyIcon3.Visible = False
+
+        If getValue("changelogShown") = "no" Or getValue("changelogShown") = "" Then
+            changelogworker.RunWorkerAsync()
+            setValue("changelogShown", "yes")
+        End If
+    End Sub
+
+    Private Sub changelogworker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles changelogworker.DoWork
+        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/changelog.txt")
+        Dim response As System.Net.HttpWebResponse
+        Dim sr As System.IO.StreamReader
+        Dim changelog As String
+        Try
+            response = request.GetResponse()
+            sr = New System.IO.StreamReader(response.GetResponseStream(), System.Text.Encoding.UTF8, True)
+            changelog = sr.ReadToEnd()
+        Catch ex As Exception
+            Console.WriteLine("couldnt get the changelog {0}", ex.ToString)
+            changelog = ""
+        End Try
+        MsgBox("Novidades desta versão - " & Application.ProductVersion & vbNewLine & changelog, MessageBoxIcon.Information, "Changelog")
+    End Sub
+
+
+
+
+    Public Class GlobalVariables
+        Public Shared networkIsUp As Int16 = 0
+        Public Shared currentVersion As String = Application.ProductVersion.ToString
+        Public Shared fakedate As String = "13-09-2014"
+
+    End Class
+
+
 
     Function setValue(ByVal regname As String, ByVal regval As String) As Integer
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\GestorRedesVirtuais", regname, regval)
@@ -66,6 +120,19 @@ Public Class Form1
         Return localvar
     End Function
 
+    Function terminate()
+        If GlobalVariables.networkIsUp = 1 Then
+            If MsgBox("A rede virtual está inicilizada, se sair a mesma será desligada." & vbNewLine & "Deseja sair?", MsgBoxStyle.YesNo, "Atenção") = MsgBoxResult.Yes Then
+                applyCommand("netsh wlan stop hostednetwork")
+                Application.Exit()
+            Else
+                Return ""
+            End If
+        Else
+            Application.Exit()
+        End If
+        Return ""
+    End Function
 
     Function applyCommand(ByVal command As String) As Integer
         Dim commandDispatcherSettings As New ProcessStartInfo()
@@ -81,6 +148,7 @@ Public Class Form1
         Console.WriteLine("codigo de erro é {0}", errorCode)
         applyCommand = errorCode
     End Function
+
 
     Function checkforUpdates() As Integer
         Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/latestversion.txt")
@@ -102,6 +170,7 @@ Public Class Form1
             If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
                 Process.Start("http://emanuel-alves.com/GRV/download.html")
                 setValue("lastUpdateCheck", GlobalVariables.fakedate)
+                setValue("changelogShown", "no")
                 Return 0
             Else
                 Me.Height += 20
@@ -162,7 +231,6 @@ Public Class Form1
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
-        'MsgBox("Gestor de Redes Virtuais - Versão " & GlobalVariables.currentVersion & vbNewLine & "Esta aplicação em VB é desenvolvida e mantida por Emanuel Alves." & vbNewLine & "Para mais informações: emanuel-alves@outlook.com", 0, "Sobre")
         Form3.Show()
     End Sub
 
@@ -188,7 +256,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Application.Exit()
+        terminate()
     End Sub
 
     Private Sub ConfigurarPlacaDeRedeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConfigurarPlacaDeRedeToolStripMenuItem.Click
@@ -211,4 +279,42 @@ Public Class Form1
             MsgBox("Está a utilizar a versão mais recente do Gestor de Redes Virtuais.", MessageBoxIcon.Information, "Nenhuma Atualização Disponível")
         End If
     End Sub
+
+    Private Sub NotifyIcon3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon3.MouseDoubleClick
+        Me.Visible = True
+    End Sub
+
+    Private Sub NotifyIcon3_rightClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon3.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim menu As New ContextMenu
+            Dim menuItem1 As New MenuItem("Abrir GRV")
+            Dim menuItem2 As New MenuItem("Sair")
+            menu.MenuItems.Add(menuItem1)
+            menu.MenuItems.Add(menuItem2)
+            AddHandler menuItem1.Click, AddressOf Me.menuItem1_Click
+            AddHandler menuItem2.Click, AddressOf Me.menuItem2_Click
+            NotifyIcon3.ContextMenu = menu
+        End If
+
+    End Sub
+
+    Private Sub menuItem1_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        Me.Visible = True
+        NotifyIcon3.Visible = False
+    End Sub
+    Private Sub menuItem2_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        NotifyIcon3.Visible = False
+        terminate()
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        NotifyIcon3.Visible = True
+        Me.Visible = False
+        NotifyIcon3.ShowBalloonTip(10)
+    End Sub
+
+    Private Sub NovidadesDestaVersãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NovidadesDestaVersãoToolStripMenuItem.Click
+        changelogworker.RunWorkerAsync()
+    End Sub
+
 End Class

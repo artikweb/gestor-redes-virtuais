@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form1
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,8 +20,9 @@ Partial Class Form1
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -41,6 +42,7 @@ Partial Class Form1
         Me.SobreToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContactoToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ActualizaçãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NovidadesDestaVersãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContactoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConfigurarPlacaDeRedeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -53,6 +55,10 @@ Partial Class Form1
         Me.statebox = New System.Windows.Forms.GroupBox()
         Me.statelabel = New System.Windows.Forms.Label()
         Me.updateWarningLabel = New System.Windows.Forms.Label()
+        Me.NotifyIcon3 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.changelogworker = New System.ComponentModel.BackgroundWorker()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -175,7 +181,7 @@ Partial Class Form1
         '
         'AjudaToolStripMenuItem
         '
-        Me.AjudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SobreToolStripMenuItem, Me.ContactoToolStripMenuItem1, Me.ActualizaçãoToolStripMenuItem, Me.ContactoToolStripMenuItem})
+        Me.AjudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SobreToolStripMenuItem, Me.ContactoToolStripMenuItem1, Me.ActualizaçãoToolStripMenuItem, Me.NovidadesDestaVersãoToolStripMenuItem, Me.ContactoToolStripMenuItem})
         Me.AjudaToolStripMenuItem.Name = "AjudaToolStripMenuItem"
         Me.AjudaToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
         Me.AjudaToolStripMenuItem.Text = "Ajuda"
@@ -183,26 +189,32 @@ Partial Class Form1
         'SobreToolStripMenuItem
         '
         Me.SobreToolStripMenuItem.Name = "SobreToolStripMenuItem"
-        Me.SobreToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+        Me.SobreToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
         Me.SobreToolStripMenuItem.Text = "Sobre"
         '
         'ContactoToolStripMenuItem1
         '
         Me.ContactoToolStripMenuItem1.Name = "ContactoToolStripMenuItem1"
-        Me.ContactoToolStripMenuItem1.Size = New System.Drawing.Size(173, 22)
+        Me.ContactoToolStripMenuItem1.Size = New System.Drawing.Size(190, 22)
         Me.ContactoToolStripMenuItem1.Text = "Contacto"
         '
         'ActualizaçãoToolStripMenuItem
         '
         Me.ActualizaçãoToolStripMenuItem.Name = "ActualizaçãoToolStripMenuItem"
-        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
         Me.ActualizaçãoToolStripMenuItem.Text = "Procurar Atualização"
+        '
+        'NovidadesDestaVersãoToolStripMenuItem
+        '
+        Me.NovidadesDestaVersãoToolStripMenuItem.Name = "NovidadesDestaVersãoToolStripMenuItem"
+        Me.NovidadesDestaVersãoToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.NovidadesDestaVersãoToolStripMenuItem.Text = "Novidades desta versão"
         '
         'ContactoToolStripMenuItem
         '
         Me.ContactoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigurarPlacaDeRedeToolStripMenuItem, Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem})
         Me.ContactoToolStripMenuItem.Name = "ContactoToolStripMenuItem"
-        Me.ContactoToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+        Me.ContactoToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
         Me.ContactoToolStripMenuItem.Text = "Configuração Extra"
         '
         'ConfigurarPlacaDeRedeToolStripMenuItem
@@ -269,7 +281,7 @@ Partial Class Form1
         '
         Me.Button4.Location = New System.Drawing.Point(12, 381)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(311, 23)
+        Me.Button4.Size = New System.Drawing.Size(152, 23)
         Me.Button4.TabIndex = 15
         Me.Button4.Text = "Sair"
         Me.Button4.UseVisualStyleBackColor = True
@@ -303,11 +315,35 @@ Partial Class Form1
         Me.updateWarningLabel.Text = "Está a utilizar uma versão desatualizada!"
         Me.updateWarningLabel.Visible = False
         '
+        'NotifyIcon3
+        '
+        Me.NotifyIcon3.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.NotifyIcon3.BalloonTipText = "O Gestor de Redes Virtuais ainda está em execução. Clique no icone para abrir."
+        Me.NotifyIcon3.BalloonTipTitle = "Gestor de Redes Virtuais"
+        Me.NotifyIcon3.Text = "NotifyIcon3"
+        Me.NotifyIcon3.Visible = True
+        '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(171, 381)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(152, 23)
+        Me.Button6.TabIndex = 19
+        Me.Button6.Text = "Minimizar"
+        Me.Button6.UseVisualStyleBackColor = True
+        '
+        'BackgroundWorker1
+        '
+        '
+        'changelogworker
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(337, 430)
+        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.updateWarningLabel)
         Me.Controls.Add(Me.statebox)
         Me.Controls.Add(Me.Button4)
@@ -369,4 +405,9 @@ Partial Class Form1
     Friend WithEvents statelabel As Label
     Friend WithEvents ActualizaçãoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents updateWarningLabel As Label
+    Friend WithEvents NotifyIcon3 As NotifyIcon
+    Friend WithEvents Button6 As Button
+    Friend WithEvents NovidadesDestaVersãoToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents changelogworker As System.ComponentModel.BackgroundWorker
 End Class
