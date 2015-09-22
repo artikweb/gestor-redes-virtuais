@@ -48,6 +48,25 @@ Public Class Form1
 
     End Sub
 
+    'Minimize on Form Minimize
+    Protected Overrides Sub OnResize(ByVal e As System.EventArgs)
+        Dim min As Boolean = False
+
+        'if minimized button was pressed
+        If Me.WindowState = FormWindowState.Minimized = True Then
+            min = True
+
+            'undo minimize
+            Me.WindowState = FormWindowState.Normal
+        End If
+
+        If min Then
+            NotifyIcon3.Visible = True
+            Me.Visible = False
+            NotifyIcon3.ShowBalloonTip(10)
+        End If
+    End Sub
+
     Private Sub BackgroundWorker1_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
         Dim _imageStream As Stream
         Dim _assembly As [Assembly]
@@ -62,6 +81,14 @@ Public Class Form1
         NotifyIcon3.Icon = New Icon(_imageStream)
         NotifyIcon3.Text = "Gestor de Redes Virtuais"
         NotifyIcon3.Visible = False
+        Dim menu As New ContextMenu
+        Dim menuItem1 As New MenuItem("Abrir GRV")
+        Dim menuItem2 As New MenuItem("Sair")
+        menu.MenuItems.Add(menuItem1)
+        menu.MenuItems.Add(menuItem2)
+        AddHandler menuItem1.Click, AddressOf Me.menuItem1_Click
+        AddHandler menuItem2.Click, AddressOf Me.menuItem2_Click
+        NotifyIcon3.ContextMenu = menu
 
         If getValue("autoUpdate") = "yes" Then
             Dim latestCheckDate As String = getValue("lastUpdateCheck")
@@ -242,20 +269,6 @@ Public Class Form1
 
     Private Sub NotifyIcon3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon3.MouseDoubleClick
         Me.Visible = True
-    End Sub
-
-    Private Sub NotifyIcon3_rightClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon3.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim menu As New ContextMenu
-            Dim menuItem1 As New MenuItem("Abrir GRV")
-            Dim menuItem2 As New MenuItem("Sair")
-            menu.MenuItems.Add(menuItem1)
-            menu.MenuItems.Add(menuItem2)
-            AddHandler menuItem1.Click, AddressOf Me.menuItem1_Click
-            AddHandler menuItem2.Click, AddressOf Me.menuItem2_Click
-            NotifyIcon3.ContextMenu = menu
-        End If
-
     End Sub
 
     Private Sub menuItem1_Click(ByVal sender As Object, ByVal e As System.EventArgs)
