@@ -60,6 +60,7 @@ Partial Class Form1
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.changelogworker = New System.ComponentModel.BackgroundWorker()
         Me.updaterWorker = New System.ComponentModel.BackgroundWorker()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -342,6 +343,9 @@ Partial Class Form1
         'updaterWorker
         '
         '
+        'FolderBrowserDialog1
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -415,4 +419,5 @@ Partial Class Form1
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents changelogworker As System.ComponentModel.BackgroundWorker
     Friend WithEvents updaterWorker As System.ComponentModel.BackgroundWorker
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class

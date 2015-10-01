@@ -106,7 +106,9 @@ Public Class Form1
             Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd-MM-yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
             If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
                 Console.WriteLine("Running auto-update")
-                updaterWorker.RunWorkerAsync(0)
+                Dim path As String = Directory.GetCurrentDirectory()
+                Dim args = New String() {"0", path}
+                updaterWorker.RunWorkerAsync(args)
             Else
                 Console.WriteLine("auto updater ran less than 5 days ago, skipping")
             End If
@@ -171,6 +173,35 @@ Public Class Form1
         Return ""
     End Function
 
+    Public Delegate Sub raiseWarn()
+    Dim updateCancelled As raiseWarn = AddressOf raiseWarning
+
+    Public Delegate Sub replacetheapp(newPath As String)
+    Dim appReplace As replacetheapp = AddressOf appReplaceD
+
+    Function raiseWarning()
+        Me.Height += 20
+        updateWarningLabel.Visible = True
+        Return ""
+    End Function
+
+    Function appReplaceD(newfilePath As String)
+        Dim pId As String = CStr(Process.GetCurrentProcess().Id)
+        Dim path As String = Application.ExecutablePath()
+        Console.WriteLine("newfilepath is {0}", newfilePath)
+        Console.WriteLine("actual path is {0}", path)
+        Dim commands As String = "taskkill /PID " + pId + " && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
+        Console.WriteLine("current command is {0}", commands)
+        Dim commandDispatcherSettings As New ProcessStartInfo()
+        Dim commandDispatcherProcess As New Process()
+        commandDispatcherSettings.FileName = "cmd"
+        commandDispatcherSettings.Verb = "runas"
+        commandDispatcherSettings.WindowStyle = ProcessWindowStyle.Hidden
+        commandDispatcherSettings.Arguments = "cmd /C " + commands
+        commandDispatcherProcess.StartInfo = commandDispatcherSettings
+        commandDispatcherProcess.Start()
+    End Function
+
     Function applyCommand(ByVal command As String) As Integer
         Dim commandDispatcherSettings As New ProcessStartInfo()
         Dim commandDispatcherProcess As New Process()
@@ -203,12 +234,12 @@ Public Class Form1
                 End If
 
                 Dim green As Color
-                    green = Color.Lime
-                    statebox.BackColor = green
-                    statelabel.Text = "Rede Iniciada"
-                    GlobalVariables.networkIsUp = 1
-                End If
-                Else
+                green = Color.Lime
+                statebox.BackColor = green
+                statelabel.Text = "Rede Iniciada"
+                GlobalVariables.networkIsUp = 1
+            End If
+        Else
             Console.WriteLine("that didnt work either")
             MsgBox("Os dados introduzidos não são válidos." & vbNewLine & "As passwords têm que ter mais de 8 caracteres, corrija a configuração e tente de novo.", MessageBoxIcon.Error, "Ocorreu um erro")
         End If
@@ -278,7 +309,10 @@ Public Class Form1
     End Sub
 
     Private Sub ActualizaçãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ActualizaçãoToolStripMenuItem.Click
-        updaterWorker.RunWorkerAsync("1")
+        Dim path As String = Directory.GetCurrentDirectory()
+        Console.WriteLine("current path is {0}", path)
+        Dim args = New String() {"1", path}
+        updaterWorker.RunWorkerAsync(args)
     End Sub
 
     Private Sub NotifyIcon3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon3.MouseDoubleClick
@@ -304,9 +338,12 @@ Public Class Form1
         changelogworker.RunWorkerAsync()
     End Sub
 
+
+
     Private Sub updaterWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles updaterWorker.DoWork
-        Dim alert As String = e.Argument.ToString
-        Console.WriteLine("e var is {0}", alert)
+        Dim args As Object() = DirectCast(e.Argument, Object())
+        Dim alert As String = CInt(args(0))
+        Dim path As String = CStr(args(1))
         Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/latestversion.txt")
         Dim response As System.Net.HttpWebResponse
         Dim sr As System.IO.StreamReader
@@ -324,12 +361,19 @@ Public Class Form1
         Console.WriteLine("version available online is {0} ", newestversion)
         If (newestversion <> GlobalVariables.currentVersion) Then
             If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
-                Process.Start("http://emanuel-alves.com/GRV/download.html")
+                'Process.Start("http://emanuel-alves.com/GRV/download.html")
+                Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
+                Try
+                    My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
+                    MsgBox("Nova versão transferida com sucesso. A aplicação vai reiniciar.", MessageBoxIcon.Information)
+                    Me.Invoke(appReplaceD(i))
+                Catch ex As Exception
+                    MsgBox("Não foi possível transferir a nova versão." & vbNewLine & "Por favor tente manualmente em http://emanuel-alves.com/GRV/download.html", MessageBoxIcon.Error, "Ocorreu um erro")
+                End Try
                 setValue("lastUpdateCheck", GlobalVariables.fakedate)
                 setValue("changelogShown", "no")
             Else
-                Me.Height += 20
-                updateWarningLabel.Visible = True
+                Me.Invoke(updateCancelled)
                 setValue("lastUpdateCheck", GlobalVariables.fakedate)
             End If
 
@@ -343,4 +387,5 @@ Public Class Form1
 
         End If
     End Sub
+
 End Class
