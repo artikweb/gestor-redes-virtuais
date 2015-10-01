@@ -32,6 +32,10 @@ Public Class defaultconfig
             setValue("autoUpdate", "yes")
         Else setValue("autoUpdate", "no")
         End If
+        If CheckBox4.Checked = True Then
+            setValue("showPopup", "yes")
+        Else setValue("showPopup", "no")
+        End If
         MsgBox("Configuração padrão atualizada com sucesso!", MessageBoxIcon.Information)
         Me.Close()
     End Sub
@@ -58,6 +62,12 @@ Public Class defaultconfig
             CheckBox3.Checked = True
         End If
 
+        If getValue("showPopup") = "no" Or getValue("showPopup") = "" Then
+            CheckBox4.Checked = False
+        Else
+            CheckBox4.Checked = True
+        End If
+
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -71,5 +81,9 @@ Public Class defaultconfig
         ElseIf CheckBox2.Checked = False Then
             CheckBox1.Enabled = True
         End If
+    End Sub
+
+    Private Sub CheckBox4_Click(sender As Object, e As EventArgs) Handles CheckBox4.Click
+        MsgBox("Esta alteração será refletida na próxima vez que iniciar a aplicação.", MessageBoxIcon.Information)
     End Sub
 End Class

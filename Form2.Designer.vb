@@ -35,6 +35,7 @@ Partial Class defaultconfig
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -114,7 +115,7 @@ Partial Class defaultconfig
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(15, 251)
+        Me.Button1.Location = New System.Drawing.Point(15, 271)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(311, 23)
         Me.Button1.TabIndex = 11
@@ -123,7 +124,7 @@ Partial Class defaultconfig
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(15, 280)
+        Me.Button2.Location = New System.Drawing.Point(15, 300)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(311, 23)
         Me.Button2.TabIndex = 12
@@ -149,11 +150,22 @@ Partial Class defaultconfig
         Me.CheckBox3.Text = "Procurar por atualizações automaticamente a cada 5 dias"
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
+        'CheckBox4
+        '
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Location = New System.Drawing.Point(15, 248)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(308, 17)
+        Me.CheckBox4.TabIndex = 15
+        Me.CheckBox4.Text = "Mostrar mensagens aquando a alteração do estado da rede"
+        Me.CheckBox4.UseVisualStyleBackColor = True
+        '
         'defaultconfig
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(341, 325)
+        Me.ClientSize = New System.Drawing.Size(341, 335)
+        Me.Controls.Add(Me.CheckBox4)
         Me.Controls.Add(Me.CheckBox3)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.CheckBox2)
@@ -188,4 +200,5 @@ Partial Class defaultconfig
     Friend WithEvents Label4 As Label
     Friend WithEvents CheckBox2 As CheckBox
     Friend WithEvents CheckBox3 As CheckBox
+    Friend WithEvents CheckBox4 As CheckBox
 End Class

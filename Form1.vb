@@ -16,16 +16,24 @@ Public Class Form1
             setValue("defaultStartup", "no")
             setValue("autoUpdate", "yes")
             setValue("changelogShown", "yes")
+            setValue("showPopup", "yes")
         End If
 
-        If (getValue("autoUpdate") = "") Then
+        If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
             setValue("autoUpdate", "yes")
             setValue("autoNetwork", "no")
+            setValue("showPopup", "yes")
         End If
 
         If getValue("defaultStartup") = "yes" Then
             ssid.Text = getValue("ssidPadrao")
             password.Text = getValue("pswPadrao")
+        End If
+
+        If getValue("showPopup") = "yes" Then
+            GlobalVariables.showPopup = 1
+        Else
+            GlobalVariables.showPopup = 0
         End If
 
         BackgroundWorker1.RunWorkerAsync()
@@ -45,7 +53,6 @@ Public Class Form1
             Button1_Click(sender, e)
         End If
         currentVersionLabel.Text = GlobalVariables.currentVersion
-
     End Sub
 
     'Minimize on Form Minimize
@@ -63,7 +70,7 @@ Public Class Form1
         If min Then
             NotifyIcon3.Visible = True
             Me.Visible = False
-            NotifyIcon3.ShowBalloonTip(10)
+            NotifyIcon3.ShowBalloonTip(5)
         End If
     End Sub
 
@@ -76,7 +83,7 @@ Public Class Form1
             _assembly = [Assembly].GetExecutingAssembly()
             _imageStream = _assembly.GetManifestResourceStream("gestor_de_redes_virtuais.wifi.ico")
         Catch ex As Exception
-            MessageBox.Show("Resource wasn't found!", "Error")
+            Console.WriteLine("Resource wasn't found!", "Error")
         End Try
         NotifyIcon3.Icon = New Icon(_imageStream)
         NotifyIcon3.Text = "Gestor de Redes Virtuais"
@@ -99,7 +106,7 @@ Public Class Form1
             Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd-MM-yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
             If DateDiff(DateInterval.Day, Now, latestCheck) < -5 Then
                 Console.WriteLine("Running auto-update")
-                updaterWorker.RunWorkerAsync()
+                updaterWorker.RunWorkerAsync(0)
             Else
                 Console.WriteLine("auto updater ran less than 5 days ago, skipping")
             End If
@@ -134,6 +141,7 @@ Public Class Form1
         Public Shared networkIsUp As Int16 = 0
         Public Shared currentVersion As String = Application.ProductVersion.ToString
         Public Shared fakedate As String = "13-09-2014"
+        Public Shared showPopup As Int16
 
     End Class
 
@@ -190,14 +198,17 @@ Public Class Form1
                 Console.WriteLine("that didnt work")
                 MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que não está ligado a nenhuma rede wireless. Verifique também se o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
             Else
-                MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
+                If GlobalVariables.showPopup = 1 Then
+                    MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
+                End If
+
                 Dim green As Color
-                green = Color.Lime
-                statebox.BackColor = green
-                statelabel.Text = "Rede Iniciada"
-                GlobalVariables.networkIsUp = 1
-            End If
-        Else
+                    green = Color.Lime
+                    statebox.BackColor = green
+                    statelabel.Text = "Rede Iniciada"
+                    GlobalVariables.networkIsUp = 1
+                End If
+                Else
             Console.WriteLine("that didnt work either")
             MsgBox("Os dados introduzidos não são válidos." & vbNewLine & "As passwords têm que ter mais de 8 caracteres, corrija a configuração e tente de novo.", MessageBoxIcon.Error, "Ocorreu um erro")
         End If
@@ -206,7 +217,10 @@ Public Class Form1
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         applyCommand("netsh wlan stop hostednetwork")
-        MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
+        If GlobalVariables.showPopup = 1 Then
+            MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
+        End If
+
         Dim ctrl As Color
         ctrl = SystemColors.Control
         statebox.BackColor = ctrl
@@ -283,7 +297,7 @@ Public Class Form1
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         NotifyIcon3.Visible = True
         Me.Visible = False
-        NotifyIcon3.ShowBalloonTip(10)
+        NotifyIcon3.ShowBalloonTip(5)
     End Sub
 
     Private Sub NovidadesDestaVersãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NovidadesDestaVersãoToolStripMenuItem.Click
