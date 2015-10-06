@@ -35,8 +35,24 @@ Public Class Form1
         Else
             GlobalVariables.showPopup = 0
         End If
-
+        AddHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
         BackgroundWorker1.RunWorkerAsync()
+
+    End Sub
+
+
+
+    Private Sub SystemEvents_PowerModeChanged(ByVal sender As Object, ByVal e As PowerModeChangedEventArgs)
+
+        Select Case e.Mode
+            Case PowerModes.Resume
+                If GlobalVariables.networkIsUp = 1 Then
+                    applyCommand("netsh wlan start hostednetwork")
+                End If
+            Case PowerModes.StatusChange
+            Case PowerModes.Suspend
+        End Select
+
     End Sub
 
     Private Const CP_NOCLOSE_BUTTON As Integer = &H200
@@ -163,11 +179,13 @@ Public Class Form1
         If GlobalVariables.networkIsUp = 1 Then
             If MsgBox("A rede virtual está inicilizada, se sair a mesma será desligada." & vbNewLine & "Deseja sair?", MsgBoxStyle.YesNo, "Atenção") = MsgBoxResult.Yes Then
                 applyCommand("netsh wlan stop hostednetwork")
+                RemoveHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
                 Application.Exit()
             Else
                 Return ""
             End If
         Else
+            RemoveHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
             Application.Exit()
         End If
         Return ""
@@ -190,16 +208,9 @@ Public Class Form1
         Dim path As String = Application.ExecutablePath()
         Console.WriteLine("newfilepath is {0}", newfilePath)
         Console.WriteLine("actual path is {0}", path)
-        Dim commands As String = "taskkill /PID " + pId + " && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
+        Dim commands As String = "taskkill /PID " + pId + " && timeout 3 && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
         Console.WriteLine("current command is {0}", commands)
-        Dim commandDispatcherSettings As New ProcessStartInfo()
-        Dim commandDispatcherProcess As New Process()
-        commandDispatcherSettings.FileName = "cmd"
-        commandDispatcherSettings.Verb = "runas"
-        commandDispatcherSettings.WindowStyle = ProcessWindowStyle.Hidden
-        commandDispatcherSettings.Arguments = "cmd /C " + commands
-        commandDispatcherProcess.StartInfo = commandDispatcherSettings
-        commandDispatcherProcess.Start()
+        applyCommand(commands)
     End Function
 
     Function applyCommand(ByVal command As String) As Integer
@@ -360,7 +371,7 @@ Public Class Form1
         Console.WriteLine("current version is {0} ", GlobalVariables.currentVersion)
         Console.WriteLine("version available online is {0} ", newestversion)
         If (newestversion <> GlobalVariables.currentVersion) Then
-            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão disponível!") = MsgBoxResult.Yes Then
+            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
                 'Process.Start("http://emanuel-alves.com/GRV/download.html")
                 Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
                 Try
@@ -388,4 +399,7 @@ Public Class Form1
         End If
     End Sub
 
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+    End Sub
 End Class
