@@ -177,7 +177,7 @@ Public Class Form1
 
     Function terminate()
         If GlobalVariables.networkIsUp = 1 Then
-            If MsgBox("A rede virtual está inicilizada, se sair a mesma será desligada." & vbNewLine & "Deseja sair?", MsgBoxStyle.YesNo, "Atenção") = MsgBoxResult.Yes Then
+            If MsgBox("A rede virtual está inicializada, ao sair esta será desligada." & vbNewLine & "Deseja sair?", MsgBoxStyle.YesNo, "Atenção") = MsgBoxResult.Yes Then
                 applyCommand("netsh wlan stop hostednetwork")
                 RemoveHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
                 Application.Exit()
@@ -208,7 +208,7 @@ Public Class Form1
         Dim path As String = Application.ExecutablePath()
         Console.WriteLine("newfilepath is {0}", newfilePath)
         Console.WriteLine("actual path is {0}", path)
-        Dim commands As String = "taskkill /PID " + pId + " && timeout 3 && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
+        Dim commands As String = "taskkill /f /PID " + pId + " && timeout 3 && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
         Console.WriteLine("current command is {0}", commands)
         applyCommand(commands)
     End Function
@@ -243,10 +243,7 @@ Public Class Form1
                 If GlobalVariables.showPopup = 1 Then
                     MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
                 End If
-
-                Dim green As Color
-                green = Color.Lime
-                statebox.BackColor = green
+                statebox.BackColor = Color.Lime
                 statelabel.Text = "Rede Iniciada"
                 GlobalVariables.networkIsUp = 1
             End If
@@ -262,10 +259,7 @@ Public Class Form1
         If GlobalVariables.showPopup = 1 Then
             MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
         End If
-
-        Dim ctrl As Color
-        ctrl = SystemColors.Control
-        statebox.BackColor = ctrl
+        statebox.BackColor = SystemColors.Control
         statelabel.Text = "Rede Inativa"
         GlobalVariables.networkIsUp = 0
     End Sub
@@ -372,7 +366,6 @@ Public Class Form1
         Console.WriteLine("version available online is {0} ", newestversion)
         If (newestversion <> GlobalVariables.currentVersion) Then
             If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
-                'Process.Start("http://emanuel-alves.com/GRV/download.html")
                 Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
                 Try
                     My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
