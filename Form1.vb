@@ -9,7 +9,7 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         My.Computer.Registry.CurrentUser.CreateSubKey("GestorRedesVirtuais")
-        If (getValue("ssidPadrao") Is Nothing And getValue("pswPadrao") Is Nothing) Then
+        If (getValue("ssidPadrao") = "" And getValue("pswPadrao") = "") Then
             setValue("ssidPadrao", "RedeAdHocVirtual")
             setValue("pswPadrao", "Masterlock64")
             setValue("autoNetwork", "no")
@@ -23,6 +23,7 @@ Public Class Form1
             setValue("autoUpdate", "yes")
             setValue("autoNetwork", "no")
             setValue("showPopup", "yes")
+            setValue("changelogShown", "yes")
         End If
 
         If getValue("defaultStartup") = "yes" Then
@@ -329,7 +330,7 @@ Public Class Form1
         NotifyIcon3.Visible = False
     End Sub
     Private Sub menuItem2_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        NotifyIcon3.Visible = False
+        Me.Visible = True
         terminate()
     End Sub
 
@@ -342,8 +343,6 @@ Public Class Form1
     Private Sub NovidadesDestaVersãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NovidadesDestaVersãoToolStripMenuItem.Click
         changelogworker.RunWorkerAsync()
     End Sub
-
-
 
     Private Sub updaterWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles updaterWorker.DoWork
         Dim args As Object() = DirectCast(e.Argument, Object())
@@ -365,7 +364,7 @@ Public Class Form1
         Console.WriteLine("current version is {0} ", GlobalVariables.currentVersion)
         Console.WriteLine("version available online is {0} ", newestversion)
         If (newestversion <> GlobalVariables.currentVersion) Then
-            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais" & vbNewLine & "Deseja transferir?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
+            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais." & vbNewLine & "Deseja atualizar automaticamente?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
                 Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
                 Try
                     My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
@@ -394,5 +393,22 @@ Public Class Form1
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
+    End Sub
+
+    Private Sub EstadoAtualToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EstadoAtualToolStripMenuItem.Click
+        Dim statusProcess As New Process()
+        Dim statusSettings As New ProcessStartInfo()
+        statusSettings.FileName = "cmd"
+        statusSettings.Verb = "runas"
+        statusSettings.WindowStyle = ProcessWindowStyle.Hidden
+        statusSettings.Arguments = "cmd /C netsh wlan show hostednetwork"
+        statusSettings.RedirectStandardOutput = True
+        statusSettings.UseShellExecute = False
+        statusProcess.StartInfo = statusSettings
+        statusProcess.Start()
+        Dim sOutput As String
+        Dim oStreamReader As System.IO.StreamReader = statusProcess.StandardOutput
+        sOutput = oStreamReader.ReadToEnd()
+        MsgBox("Em baixo encontra informações sobre o estado atual da rede e o número de dispositivos ligados à mesma." + vbNewLine + sOutput, 0, "Estado atual da rede")
     End Sub
 End Class

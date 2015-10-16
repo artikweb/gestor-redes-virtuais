@@ -61,6 +61,7 @@ Partial Class Form1
         Me.changelogworker = New System.ComponentModel.BackgroundWorker()
         Me.updaterWorker = New System.ComponentModel.BackgroundWorker()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.EstadoAtualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -149,7 +150,7 @@ Partial Class Form1
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FicheiroToolStripMenuItem, Me.AjudaToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FicheiroToolStripMenuItem, Me.EstadoAtualToolStripMenuItem, Me.AjudaToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(337, 24)
@@ -343,8 +344,11 @@ Partial Class Form1
         'updaterWorker
         '
         '
-        'FolderBrowserDialog1
+        'EstadoAtualToolStripMenuItem
         '
+        Me.EstadoAtualToolStripMenuItem.Name = "EstadoAtualToolStripMenuItem"
+        Me.EstadoAtualToolStripMenuItem.Size = New System.Drawing.Size(80, 20)
+        Me.EstadoAtualToolStripMenuItem.Text = "Estado Atual"
         '
         'Form1
         '
@@ -420,4 +424,5 @@ Partial Class Form1
     Friend WithEvents changelogworker As System.ComponentModel.BackgroundWorker
     Friend WithEvents updaterWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents EstadoAtualToolStripMenuItem As ToolStripMenuItem
 End Class
