@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Gestor de Redes Virtuais")>
-<Assembly: AssemblyDescription("Sistema de gestão de redes virtuais (adhoc) para Windows 7, 8 e 8.1")>
+<Assembly: AssemblyDescription("Aplicação de gestão de redes virtuais (adhoc) para Windows 7, 8 e 10")>
 <Assembly: AssemblyCompany("Emanuel Alves")>
 <Assembly: AssemblyProduct("Gestor de Redes Virtuais")>
 <Assembly: AssemblyCopyright("Copyright © Emanuel Alves  2015")>
@@ -32,6 +32,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.2.0.0")>
-<Assembly: AssemblyFileVersion("2.2.0.0")>
+<Assembly: AssemblyVersion("2.2.0.1")>
+<Assembly: AssemblyFileVersion("2.2.0.1")>
 <Assembly: NeutralResourcesLanguage("pt-PT")>

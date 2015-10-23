@@ -148,7 +148,7 @@ Public Class Form1
             changelog = sr.ReadToEnd()
         Catch ex As Exception
             Console.WriteLine("couldnt get the changelog {0}", ex.ToString)
-            changelog = ""
+            changelog = "Ocorreu um erro ao obter o changelog."
         End Try
         MsgBox("Novidades desta versão - " & Application.ProductVersion & vbNewLine & changelog, MessageBoxIcon.Information, "Changelog")
     End Sub
@@ -369,12 +369,12 @@ Public Class Form1
                 Try
                     My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
                     MsgBox("Nova versão transferida com sucesso. A aplicação vai reiniciar.", MessageBoxIcon.Information)
+                    setValue("changelogShown", "no")
                     Me.Invoke(appReplaceD(i))
                 Catch ex As Exception
                     MsgBox("Não foi possível transferir a nova versão." & vbNewLine & "Por favor tente manualmente em http://emanuel-alves.com/GRV/download.html", MessageBoxIcon.Error, "Ocorreu um erro")
                 End Try
                 setValue("lastUpdateCheck", GlobalVariables.fakedate)
-                setValue("changelogShown", "no")
             Else
                 Me.Invoke(updateCancelled)
                 setValue("lastUpdateCheck", GlobalVariables.fakedate)
