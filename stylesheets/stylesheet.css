@@ -57,7 +57,23 @@ a {
   color: #fff;
   text-align: center;
   background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957); }
+/* IE10+ */ 
+background-image: -ms-linear-gradient(top left, #155799 0%, #668AFF 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top left, #155799 0%, #668AFF 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(top left, #155799 0%, #668AFF 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #155799), color-stop(100, #668AFF));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top left, #155799 0%, #668AFF 100%);
+
+/* W3C Markup */ 
+background-image: linear-gradient(to bottom right, #155799 0%, #668AFF 100%);
 
 @media screen and (min-width: 64em) {
   .page-header {
