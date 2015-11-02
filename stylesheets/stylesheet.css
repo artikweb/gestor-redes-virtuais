@@ -58,22 +58,22 @@ a {
   text-align: center;
   background-color: #159957;
 /* IE10+ */ 
-background-image: -ms-linear-gradient(top left, #155799 0%, #668AFF 100%);
+background-image: -ms-linear-gradient(top left, #155799 0%, #A85CFF 100%);
 
 /* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(top left, #155799 0%, #668AFF 100%);
+background-image: -moz-linear-gradient(top left, #155799 0%, #A85CFF 100%);
 
 /* Opera */ 
-background-image: -o-linear-gradient(top left, #155799 0%, #668AFF 100%);
+background-image: -o-linear-gradient(top left, #155799 0%, #A85CFF 100%);
 
 /* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #155799), color-stop(100, #668AFF));
+background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #155799), color-stop(100, #A85CFF));
 
 /* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(top left, #155799 0%, #668AFF 100%);
+background-image: -webkit-linear-gradient(top left, #155799 0%, #A85CFF 100%);
 
 /* W3C Markup */ 
-background-image: linear-gradient(to bottom right, #155799 0%, #668AFF 100%);
+background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);
 }
 
 @media screen and (min-width: 64em) {
