@@ -14,10 +14,15 @@ a {
   color: #1e6bb8;
   text-decoration: none; }
   a:hover {
-    text-decoration: underline; }
+    text-decoration: underline;
+    color: #2C547C }
 
 #hero {
   text-align: center;
+}
+
+#hero img {
+  margin-right: 7px!important;
 }
 
 .btn {
@@ -124,7 +129,9 @@ a {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: normal;
-  color: #355F9D; }
+  color: #355F9D;
+  font-size: 25px;
+}
 .main-content p {
   margin-bottom: 1em; }
 .main-content code {
