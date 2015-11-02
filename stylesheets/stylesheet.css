@@ -15,11 +15,15 @@ a {
   a:hover {
     text-decoration: underline; }
 
+#hero {
+  text-align: center;
+}
+
 .btn {
   display: inline-block;
   margin-bottom: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(0, 0, 22, 0.5);
   border-color: rgba(255, 255, 255, 0.8);
   border-style: solid;
   border-width: 1px;
@@ -31,7 +35,7 @@ a {
 .btn:hover {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 22, 0.6);
   border-color: rgba(255, 255, 255, 0.3); }
 
 @media screen and (min-width: 64em) {
@@ -56,24 +60,14 @@ a {
 .page-header {
   color: #fff;
   text-align: center;
-  background-color: #159957;
-/* IE10+ */ 
-background-image: -ms-linear-gradient(top left, #155799 0%, #A85CFF 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(top left, #155799 0%, #A85CFF 100%);
-
-/* Opera */ 
-background-image: -o-linear-gradient(top left, #155799 0%, #A85CFF 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #155799), color-stop(100, #A85CFF));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(top left, #155799 0%, #A85CFF 100%);
-
-/* W3C Markup */ 
-background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);
+  /*background-color: #159957;
+  background-image: -ms-linear-gradient(top left, #155799 0%, #A85CFF 100%);
+  background-image: -moz-linear-gradient(top left, #155799 0%, #A85CFF 100%);
+  background-image: -o-linear-gradient(top left, #155799 0%, #A85CFF 100%);
+  background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #155799), color-stop(100, #A85CFF));
+  background-image: -webkit-linear-gradient(top left, #155799 0%, #A85CFF 100%);
+  background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);*/
+  background-image: url("../img/bg.jpg");
 }
 
 @media screen and (min-width: 64em) {
@@ -107,7 +101,7 @@ background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);
 .project-tagline {
   margin-bottom: 2rem;
   font-weight: normal;
-  opacity: 0.7; }
+  opacity: 1; }
 
 @media screen and (min-width: 64em) {
   .project-tagline {
@@ -129,7 +123,7 @@ background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: normal;
-  color: #34527E; }
+  color: #355F9D; }
 .main-content p {
   margin-bottom: 1em; }
 .main-content code {
@@ -260,3 +254,4 @@ background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);
 @media screen and (max-width: 42em) {
   .site-footer {
     font-size: 0.9rem; } }
+
