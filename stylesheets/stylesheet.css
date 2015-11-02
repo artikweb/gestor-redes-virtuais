@@ -20,7 +20,7 @@ a {
   margin-bottom: 1rem;
   color: rgba(255, 255, 255, 0.7);
   background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.8);
   border-style: solid;
   border-width: 1px;
   border-radius: 0.3rem;
@@ -129,7 +129,7 @@ background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: normal;
-  color: #159957; }
+  color: #34527E; }
 .main-content p {
   margin-bottom: 1em; }
 .main-content code {
