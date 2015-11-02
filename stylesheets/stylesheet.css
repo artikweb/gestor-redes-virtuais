@@ -74,6 +74,7 @@ background-image: -webkit-linear-gradient(top left, #155799 0%, #668AFF 100%);
 
 /* W3C Markup */ 
 background-image: linear-gradient(to bottom right, #155799 0%, #668AFF 100%);
+}
 
 @media screen and (min-width: 64em) {
   .page-header {
