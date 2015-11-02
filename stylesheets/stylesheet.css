@@ -15,13 +15,13 @@ a {
   text-decoration: none; }
   a:hover {
     text-decoration: underline;
-    color: #2C547C }
+    color: #2C547C; }
 
-#hero {
+.hero {
   text-align: center;
 }
 
-#hero img {
+.hero img {
   margin-right: 7px!important;
 }
 
@@ -43,6 +43,10 @@ a {
   text-decoration: none;
   background-color: rgba(0, 0, 22, 0.6);
   border-color: rgba(255, 255, 255, 0.3); }
+
+.green {
+  border-color: #22E70E;
+}
 
 @media screen and (min-width: 64em) {
   .btn {
@@ -74,6 +78,11 @@ a {
   background-image: -webkit-linear-gradient(top left, #155799 0%, #A85CFF 100%);
   background-image: linear-gradient(to bottom right, #155799 0%, #A85CFF 100%);*/
   background-image: url("../img/bg.jpg");
+}
+
+
+.smaller {
+  padding:0px!important;
 }
 
 @media screen and (min-width: 64em) {
