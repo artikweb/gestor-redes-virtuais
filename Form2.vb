@@ -18,8 +18,18 @@ Public Class defaultconfig
     End Function
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        setValue("ssidPadrao", ssiddefault.Text)
-        setValue("pswPadrao", pswdefault.Text)
+        If ssiddefault.Text = "" Or pswdefault.Text = "" Then
+            MsgBox("Nenhum dos campos 'Nome da Rede' ou 'Password' podem estar vazios. Introduza a configuração pretendida e tente novamente.", MessageBoxIcon.Warning)
+        Else
+            If Len(pswdefault.Text) < 8 Then
+                MsgBox("A password tem de ter mais de 8 caracteres. Tente novamente.", MessageBoxIcon.Warning)
+
+            Else
+                setValue("ssidPadrao", ssiddefault.Text)
+                setValue("pswPadrao", pswdefault.Text)
+            End If
+        End If
+
         If (CheckBox1.Checked = True) Then
             setValue("defaultStartup", "yes")
         Else setValue("defaultStartup", "no")
@@ -36,7 +46,6 @@ Public Class defaultconfig
             setValue("showPopup", "yes")
         Else setValue("showPopup", "no")
         End If
-        MsgBox("Configuração padrão atualizada com sucesso!", MessageBoxIcon.Information)
         Me.Close()
     End Sub
 
@@ -70,7 +79,7 @@ Public Class defaultconfig
 
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs)
         Me.Close()
     End Sub
 

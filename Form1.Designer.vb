@@ -30,7 +30,6 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.password = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -38,6 +37,7 @@ Partial Class Form1
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LimparTudoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SairToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EstadoAtualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AjudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SobreToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContactoToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -61,7 +61,7 @@ Partial Class Form1
         Me.changelogworker = New System.ComponentModel.BackgroundWorker()
         Me.updaterWorker = New System.ComponentModel.BackgroundWorker()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.EstadoAtualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -117,19 +117,10 @@ Partial Class Form1
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Password da Rede (WPA2)"
         '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(9, 38)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(284, 13)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "1 - Introduza a configuração da rede nos campos em baixo"
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(9, 55)
+        Me.Label4.Location = New System.Drawing.Point(9, 52)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(128, 13)
         Me.Label4.TabIndex = 7
@@ -181,6 +172,12 @@ Partial Class Form1
         Me.SairToolStripMenuItem.Name = "SairToolStripMenuItem"
         Me.SairToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
         Me.SairToolStripMenuItem.Text = "Sair"
+        '
+        'EstadoAtualToolStripMenuItem
+        '
+        Me.EstadoAtualToolStripMenuItem.Name = "EstadoAtualToolStripMenuItem"
+        Me.EstadoAtualToolStripMenuItem.Size = New System.Drawing.Size(80, 20)
+        Me.EstadoAtualToolStripMenuItem.Text = "Estado Atual"
         '
         'AjudaToolStripMenuItem
         '
@@ -344,11 +341,14 @@ Partial Class Form1
         'updaterWorker
         '
         '
-        'EstadoAtualToolStripMenuItem
+        'Label3
         '
-        Me.EstadoAtualToolStripMenuItem.Name = "EstadoAtualToolStripMenuItem"
-        Me.EstadoAtualToolStripMenuItem.Size = New System.Drawing.Size(80, 20)
-        Me.EstadoAtualToolStripMenuItem.Text = "Estado Atual"
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(9, 35)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(305, 13)
+        Me.Label3.TabIndex = 6
+        Me.Label3.Text = "1- Introduza o SSID/Password ou utilize a configuração padrão"
         '
         'Form1
         '
@@ -393,7 +393,6 @@ Partial Class Form1
     Friend WithEvents Label1 As Label
     Friend WithEvents password As TextBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents MenuStrip1 As MenuStrip
@@ -425,4 +424,5 @@ Partial Class Form1
     Friend WithEvents updaterWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents EstadoAtualToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label3 As Label
 End Class

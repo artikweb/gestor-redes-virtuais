@@ -17,6 +17,7 @@ Public Class Form1
             setValue("autoUpdate", "yes")
             setValue("changelogShown", "yes")
             setValue("showPopup", "yes")
+            setValue("telemetrySent", 4)
         End If
 
         If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
@@ -29,6 +30,10 @@ Public Class Form1
         If getValue("defaultStartup") = "yes" Then
             ssid.Text = getValue("ssidPadrao")
             password.Text = getValue("pswPadrao")
+        End If
+
+        If getValue("telemetrySent") = "" Then
+            setValue("telemetrySent", 4)
         End If
 
         If getValue("showPopup") = "yes" Then
@@ -135,6 +140,28 @@ Public Class Form1
             changelogworker.RunWorkerAsync()
             setValue("changelogShown", "yes")
         End If
+
+
+
+        If getValue("telemetrySent") < 3 Then
+            Console.WriteLine("app didnt run enough times for telemetry")
+            Dim telemetryVal As Int16 = getValue("telemetrySent")
+            telemetryVal = telemetryVal + 1
+            setValue("telemetrySent", telemetryVal)
+        Else
+            Dim currDate As String = String.Format("{0:dd/MM/yyyy HH:mm:ss}", DateTime.Now)
+            Dim osVer As Version = Environment.OSVersion.Version
+            Dim url As String = "http://emanuel-alves.com/GRV/grvtelemetry.php?variable=>>%20" + currDate + "%20System:%20" + My.Computer.Name + "%20is%20running%20GRV%20version%20" + GlobalVariables.currentVersion + " %0d%0a"
+            Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create(url)
+            Dim response As System.Net.HttpWebResponse
+            Try
+                Console.WriteLine("sending telemetry")
+                response = request.GetResponse()
+            Catch ex As Exception
+                Console.WriteLine("telemetry broadcast failed")
+            End Try
+            setValue("telemetrySent", "0")
+        End If
     End Sub
 
     Private Sub changelogworker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles changelogworker.DoWork
@@ -230,29 +257,35 @@ Public Class Form1
     End Function
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-
-        Dim ssidVar As String = ssid.Text
-        Dim paswVar As String = password.Text
-        Dim networkSettingValsCMD As String = "netsh wlan set hostednetwork mode=allow ssid=" + ssidVar + " key=" + paswVar
-        Dim settingErrorCheck As Integer = applyCommand(networkSettingValsCMD)
-        If (settingErrorCheck <> 1) Then
-            Dim startupErrorCheck As Integer = applyCommand("netsh wlan start hostednetwork")
-            If (startupErrorCheck = 1) Then
-                Console.WriteLine("that didnt work")
-                MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que não está ligado a nenhuma rede wireless. Verifique também se o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
-            Else
-                If GlobalVariables.showPopup = 1 Then
-                    MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
-                End If
-                statebox.BackColor = Color.Lime
-                statelabel.Text = "Rede Iniciada"
-                GlobalVariables.networkIsUp = 1
-            End If
+        If ssid.Text = "" Or password.Text = "" Then
+            MsgBox("Nenhum dos campos 'Nome da Rede' ou 'Password' podem estar vazios. Introduza a configuração pretendida e tente novamente.", MessageBoxIcon.Warning)
         Else
-            Console.WriteLine("that didnt work either")
-            MsgBox("Os dados introduzidos não são válidos." & vbNewLine & "As passwords têm que ter mais de 8 caracteres, corrija a configuração e tente de novo.", MessageBoxIcon.Error, "Ocorreu um erro")
+            If Len(password.Text) < 8 Then
+                MsgBox("A password tem de ter mais de 8 caracteres. Tente novamente.", MessageBoxIcon.Warning)
+            Else
+                Dim ssidVar As String = ssid.Text
+                Dim paswVar As String = password.Text
+                Dim networkSettingValsCMD As String = "netsh wlan set hostednetwork mode=allow ssid=" + ssidVar + " key=" + paswVar
+                Dim settingErrorCheck As Integer = applyCommand(networkSettingValsCMD)
+                If (settingErrorCheck <> 1) Then
+                    Dim startupErrorCheck As Integer = applyCommand("netsh wlan start hostednetwork")
+                    If (startupErrorCheck = 1) Then
+                        Console.WriteLine("that didnt work")
+                        MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
+                    Else
+                        If GlobalVariables.showPopup = 1 Then
+                            MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
+                        End If
+                        statebox.BackColor = Color.Lime
+                        statelabel.Text = "Rede Iniciada"
+                        GlobalVariables.networkIsUp = 1
+                    End If
+                Else
+                    Console.WriteLine("that didnt work either")
+                    MsgBox("Ocorreu um erro não especificado." + vbNewLine + "Por favor contacte o suporte em Ajuda -> Contacto.", MessageBoxIcon.Error, "Erro")
+                End If
+            End If
         End If
-
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -311,7 +344,7 @@ Public Class Form1
 
     Private Sub ContactoToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ContactoToolStripMenuItem1.Click
         MsgBox("Será aberta uma página no seu browser. Necessita de uma ligação à internet. ", MessageBoxIcon.Information)
-        Process.Start("http://emanuel-alves.com/contato.html")
+        Process.Start("http://emannxx.github.io/gestor-redes-virtuais/#suporte-para-quem-precisa")
     End Sub
 
     Private Sub ActualizaçãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ActualizaçãoToolStripMenuItem.Click
@@ -372,7 +405,9 @@ Public Class Form1
                     setValue("changelogShown", "no")
                     Me.Invoke(appReplaceD(i))
                 Catch ex As Exception
-                    MsgBox("Não foi possível transferir a nova versão." & vbNewLine & "Por favor tente manualmente em http://emanuel-alves.com/GRV/download.html", MessageBoxIcon.Error, "Ocorreu um erro")
+                    If MsgBox("Não foi possível transferir a nova versão automaticamente." & vbNewLine & "Deseja aceder ao site oficial para transferir manualmente?", MsgBoxStyle.YesNo, "Ocorreu um erro") = MsgBoxResult.Yes Then
+                        Process.Start("http://emannxx.github.io/gestor-redes-virtuais")
+                    End If
                 End Try
                 setValue("lastUpdateCheck", GlobalVariables.fakedate)
             Else
@@ -410,5 +445,9 @@ Public Class Form1
         Dim oStreamReader As System.IO.StreamReader = statusProcess.StandardOutput
         sOutput = oStreamReader.ReadToEnd()
         MsgBox("Em baixo encontra informações sobre o estado atual da rede e o número de dispositivos ligados à mesma." + vbNewLine + sOutput, 0, "Estado atual da rede")
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs)
+
     End Sub
 End Class

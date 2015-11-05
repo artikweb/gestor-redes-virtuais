@@ -30,10 +30,7 @@ Partial Class defaultconfig
         Me.Label2 = New System.Windows.Forms.Label()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
@@ -45,7 +42,7 @@ Partial Class defaultconfig
         Me.GroupBox1.Controls.Add(Me.ssiddefault)
         Me.GroupBox1.Controls.Add(Me.pswdefault)
         Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Location = New System.Drawing.Point(15, 53)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(311, 121)
         Me.GroupBox1.TabIndex = 9
@@ -87,7 +84,7 @@ Partial Class defaultconfig
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(15, 203)
+        Me.CheckBox2.Location = New System.Drawing.Point(12, 162)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(207, 17)
         Me.CheckBox2.TabIndex = 7
@@ -97,53 +94,26 @@ Partial Class defaultconfig
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(15, 180)
+        Me.CheckBox1.Location = New System.Drawing.Point(12, 139)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(281, 17)
         Me.CheckBox1.TabIndex = 6
         Me.CheckBox1.Text = "Introduzir dados padrão automaticamente no arranque"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 12)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(277, 13)
-        Me.Label3.TabIndex = 10
-        Me.Label3.Text = "1 - Introduza a configuração padrão que pretende utilizar "
-        '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(15, 271)
+        Me.Button1.Location = New System.Drawing.Point(12, 232)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(311, 23)
         Me.Button1.TabIndex = 11
-        Me.Button1.Text = "Guardar Alterações"
+        Me.Button1.Text = "Guardar e Fechar"
         Me.Button1.UseVisualStyleBackColor = True
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(15, 300)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(311, 23)
-        Me.Button2.TabIndex = 12
-        Me.Button2.Text = "Fechar"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(12, 30)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(155, 13)
-        Me.Label4.TabIndex = 13
-        Me.Label4.Text = "2 - Clique ""Guardar Alterações"""
         '
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(15, 226)
+        Me.CheckBox3.Location = New System.Drawing.Point(12, 185)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(297, 17)
         Me.CheckBox3.TabIndex = 14
@@ -153,7 +123,7 @@ Partial Class defaultconfig
         'CheckBox4
         '
         Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Location = New System.Drawing.Point(15, 248)
+        Me.CheckBox4.Location = New System.Drawing.Point(12, 207)
         Me.CheckBox4.Name = "CheckBox4"
         Me.CheckBox4.Size = New System.Drawing.Size(308, 17)
         Me.CheckBox4.TabIndex = 15
@@ -164,15 +134,12 @@ Partial Class defaultconfig
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(341, 335)
+        Me.ClientSize = New System.Drawing.Size(336, 270)
         Me.Controls.Add(Me.CheckBox4)
         Me.Controls.Add(Me.CheckBox3)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.CheckBox2)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.GroupBox1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -194,10 +161,7 @@ Partial Class defaultconfig
     Friend WithEvents ssiddefault As TextBox
     Friend WithEvents pswdefault As TextBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents Label3 As Label
     Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Label4 As Label
     Friend WithEvents CheckBox2 As CheckBox
     Friend WithEvents CheckBox3 As CheckBox
     Friend WithEvents CheckBox4 As CheckBox
