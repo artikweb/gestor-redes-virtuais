@@ -23,3 +23,16 @@ d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de red
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache
 \\EMANNXX-ASUS\GitHub\Gestor-de-Redes-Virtuais\obj\Release\gestor_de_redes_virtuais.Form3.resources
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.exe.config
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\Gestor de Redes Virtuais.exe
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\Gestor de Redes Virtuais.xml
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\Gestor de Redes Virtuais.pdb
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.exe
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.pdb
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.xml
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor de redes virtuais.vbprojResolveAssemblyReference.cache
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form1.resources
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.defaultconfig.resources
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form3.resources
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
+\\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache

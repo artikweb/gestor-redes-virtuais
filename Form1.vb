@@ -18,9 +18,11 @@ Public Class Form1
             setValue("changelogShown", "yes")
             setValue("showPopup", "yes")
             setValue("telemetrySent", 4)
+            MsgBox("Olá! Esta é a primeira vez que executa o Gestor de Redes Virtuais." + vbNewLine + "Por esse motivo é necessário configurar as placas de rede do seu computador para poder partilhar a ligação à internet. Ao clicar em OK será aberta uma página web com instruções passo-a-passo para configurar tudo correctamente." + vbNewLine + "Poderá abrir esta página mais tarde ao clicar em:" + vbNewLine + "Ajuda -> Configuração Extra -> Configurar placa de rede", MessageBoxIcon.Information, "Primeira utilização")
+            Process.Start("http: //emanuel-alves.com/GRV/config1.html")
         End If
 
-        If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
+            If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
             setValue("autoUpdate", "yes")
             setValue("autoNetwork", "no")
             setValue("showPopup", "yes")
@@ -137,34 +139,41 @@ Public Class Form1
         End If
 
         If getValue("changelogShown") = "no" Or getValue("changelogShown") = "" Then
-            changelogworker.RunWorkerAsync()
+            Dim args = New String() {"1"}
+            changelogworker.RunWorkerAsync(args)
             setValue("changelogShown", "yes")
         End If
 
 
-
-        If getValue("telemetrySent") < 3 Then
-            Console.WriteLine("app didnt run enough times for telemetry")
-            Dim telemetryVal As Int16 = getValue("telemetrySent")
-            telemetryVal = telemetryVal + 1
-            setValue("telemetrySent", telemetryVal)
+        If Debugger.IsAttached Then
         Else
-            Dim currDate As String = String.Format("{0:dd/MM/yyyy HH:mm:ss}", DateTime.Now)
-            Dim osVer As Version = Environment.OSVersion.Version
-            Dim url As String = "http://emanuel-alves.com/GRV/grvtelemetry.php?variable=>>%20" + currDate + "%20System:%20" + My.Computer.Name + "%20is%20running%20GRV%20version%20" + GlobalVariables.currentVersion + " %0d%0a"
-            Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create(url)
-            Dim response As System.Net.HttpWebResponse
-            Try
-                Console.WriteLine("sending telemetry")
-                response = request.GetResponse()
-            Catch ex As Exception
-                Console.WriteLine("telemetry broadcast failed")
-            End Try
-            setValue("telemetrySent", "0")
+            If getValue("telemetrySent") < 3 Then
+                Console.WriteLine("app didnt run enough times for telemetry")
+                Dim telemetryVal As Int16 = getValue("telemetrySent")
+                telemetryVal = telemetryVal + 1
+                setValue("telemetrySent", telemetryVal)
+            Else
+                Dim currDate As String = String.Format("{0:dd/MM/yyyy HH:mm:ss}", DateTime.Now)
+                Dim osVer As Version = Environment.OSVersion.Version
+                Dim url As String = "http://emanuel-alves.com/GRV/grvtelemetry.php?variable=>>%20" + currDate + "%20System:%20" + My.Computer.Name + "%20is%20running%20GRV%20version%20" + GlobalVariables.currentVersion + " %0d%0a"
+                Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create(url)
+                Dim response As System.Net.HttpWebResponse
+                Try
+                    Console.WriteLine("sending telemetry")
+                    response = request.GetResponse()
+                Catch ex As Exception
+                    Console.WriteLine("telemetry broadcast failed")
+                End Try
+                setValue("telemetrySent", "0")
+            End If
         End If
+
     End Sub
 
     Private Sub changelogworker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles changelogworker.DoWork
+        Dim args As Object() = DirectCast(e.Argument, Object())
+        Dim show As Int32 = CInt(args(0))
+        Console.WriteLine("Show is {0}", show)
         Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/changelog.txt")
         Dim response As System.Net.HttpWebResponse
         Dim sr As System.IO.StreamReader
@@ -177,7 +186,11 @@ Public Class Form1
             Console.WriteLine("couldnt get the changelog {0}", ex.ToString)
             changelog = "Ocorreu um erro ao obter o changelog."
         End Try
-        MsgBox("Novidades desta versão - " & Application.ProductVersion & vbNewLine & changelog, MessageBoxIcon.Information, "Changelog")
+        If show = 1 Then
+            MsgBox("Novidades desta versão - " & Application.ProductVersion & vbNewLine & changelog, MessageBoxIcon.Information, "Changelog")
+        Else
+            GlobalVariables.changelog = changelog
+        End If
     End Sub
 
 
@@ -188,6 +201,7 @@ Public Class Form1
         Public Shared currentVersion As String = Application.ProductVersion.ToString
         Public Shared fakedate As String = "13-09-2014"
         Public Shared showPopup As Int16
+        Public Shared changelog As String
 
     End Class
 
@@ -261,7 +275,7 @@ Public Class Form1
             MsgBox("Nenhum dos campos 'Nome da Rede' ou 'Password' podem estar vazios. Introduza a configuração pretendida e tente novamente.", MessageBoxIcon.Warning)
         Else
             If Len(password.Text) < 8 Then
-                MsgBox("A password tem de ter mais de 8 caracteres. Tente novamente.", MessageBoxIcon.Warning)
+                MsgBox("A password tem de ter mais de 8 caracteres. Corrija e tente novamente.", MessageBoxIcon.Warning)
             Else
                 Dim ssidVar As String = ssid.Text
                 Dim paswVar As String = password.Text
@@ -304,7 +318,7 @@ Public Class Form1
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
-        Form3.Show()
+        Form3.ShowDialog()
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -325,7 +339,7 @@ Public Class Form1
     End Sub
 
     Private Sub AlterarConfiguraçãoPadrãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AlterarConfiguraçãoPadrãoToolStripMenuItem.Click
-        defaultconfig.Show()
+        defaultconfig.ShowDialog()
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -351,7 +365,11 @@ Public Class Form1
         Dim path As String = Directory.GetCurrentDirectory()
         Console.WriteLine("current path is {0}", path)
         Dim args = New String() {"1", path}
-        updaterWorker.RunWorkerAsync(args)
+        Try
+            updaterWorker.RunWorkerAsync(args)
+        Catch ex As Exception
+            Console.WriteLine("updateworker is already running!")
+        End Try
     End Sub
 
     Private Sub NotifyIcon3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon3.MouseDoubleClick
@@ -374,7 +392,12 @@ Public Class Form1
     End Sub
 
     Private Sub NovidadesDestaVersãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NovidadesDestaVersãoToolStripMenuItem.Click
-        changelogworker.RunWorkerAsync()
+        Dim args = New String() {"1"}
+        Try
+            changelogworker.RunWorkerAsync(args)
+        Catch ex As Exception
+            Console.WriteLine("changelogworker is already running!")
+        End Try
     End Sub
 
     Private Sub updaterWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles updaterWorker.DoWork
@@ -397,7 +420,10 @@ Public Class Form1
         Console.WriteLine("current version is {0} ", GlobalVariables.currentVersion)
         Console.WriteLine("version available online is {0} ", newestversion)
         If (newestversion <> GlobalVariables.currentVersion) Then
-            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais." & vbNewLine & "Deseja atualizar automaticamente?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
+            Dim chgArgs = New String() {"0"}
+            changelogworker.RunWorkerAsync(chgArgs)
+            System.Threading.Thread.CurrentThread.Sleep(3000)
+            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais." & vbNewLine & vbNewLine & "Novidades da nova versão: " & vbNewLine & GlobalVariables.changelog & vbNewLine & vbNewLine & "Deseja atualizar automaticamente?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
                 Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
                 Try
                     My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
@@ -445,9 +471,5 @@ Public Class Form1
         Dim oStreamReader As System.IO.StreamReader = statusProcess.StandardOutput
         sOutput = oStreamReader.ReadToEnd()
         MsgBox("Em baixo encontra informações sobre o estado atual da rede e o número de dispositivos ligados à mesma." + vbNewLine + sOutput, 0, "Estado atual da rede")
-    End Sub
-
-    Private Sub Button7_Click(sender As Object, e As EventArgs)
-
     End Sub
 End Class
