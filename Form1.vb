@@ -55,10 +55,10 @@ Public Class Form1
         Select Case e.Mode
             Case PowerModes.Resume
                 If GlobalVariables.networkIsUp = 1 Then
+                    applyCommand("netsh wlan stop hostednetwork")
+                    System.Threading.Thread.CurrentThread.Sleep(2000)
                     applyCommand("netsh wlan start hostednetwork")
                 End If
-            Case PowerModes.StatusChange
-            Case PowerModes.Suspend
         End Select
 
     End Sub
@@ -202,7 +202,8 @@ Public Class Form1
         Public Shared fakedate As String = "13-09-2014"
         Public Shared showPopup As Int16
         Public Shared changelog As String
-
+        Public Shared updtQueue As Int16
+        Public Shared updtCmd As String
     End Class
 
 
@@ -228,7 +229,11 @@ Public Class Form1
             End If
         Else
             RemoveHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
-            Application.Exit()
+            If GlobalVariables.updtQueue = 1 Then
+                appReplaceD(GlobalVariables.updtCmd, 1)
+            Else
+                Application.Exit()
+            End If
         End If
         Return ""
     End Function
@@ -236,7 +241,7 @@ Public Class Form1
     Public Delegate Sub raiseWarn()
     Dim updateCancelled As raiseWarn = AddressOf raiseWarning
 
-    Public Delegate Sub replacetheapp(newPath As String)
+    Public Delegate Sub replacetheapp(newPath As String, swtch As Int16)
     Dim appReplace As replacetheapp = AddressOf appReplaceD
 
     Function raiseWarning()
@@ -245,12 +250,17 @@ Public Class Form1
         Return ""
     End Function
 
-    Function appReplaceD(newfilePath As String)
+    Function appReplaceD(newfilePath As String, switcher As Int16)
         Dim pId As String = CStr(Process.GetCurrentProcess().Id)
         Dim path As String = Application.ExecutablePath()
         Console.WriteLine("newfilepath is {0}", newfilePath)
         Console.WriteLine("actual path is {0}", path)
-        Dim commands As String = "taskkill /f /PID " + pId + " && timeout 3 && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
+        Dim commands As String
+        If switcher = 1 Then
+            commands = "taskkill /f /PID " + pId + " && timeout 3 && DEL /F /S /Q /A """ + path + """ && exit"
+        Else
+            commands = "taskkill /f /PID " + pId + " && timeout 3 && DEL /F /S /Q /A """ + path + """ && """ + newfilePath + """ && exit"
+        End If
         Console.WriteLine("current command is {0}", commands)
         applyCommand(commands)
     End Function
@@ -423,24 +433,30 @@ Public Class Form1
             Dim chgArgs = New String() {"0"}
             changelogworker.RunWorkerAsync(chgArgs)
             System.Threading.Thread.CurrentThread.Sleep(3000)
-            If MsgBox("Está disponível uma nova versão do Gestor de Redes Virtuais." & vbNewLine & vbNewLine & "Novidades da nova versão: " & vbNewLine & GlobalVariables.changelog & vbNewLine & vbNewLine & "Deseja atualizar automaticamente?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " disponível!") = MsgBoxResult.Yes Then
-                Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
-                Try
-                    My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
-                    MsgBox("Nova versão transferida com sucesso. A aplicação vai reiniciar.", MessageBoxIcon.Information)
-                    setValue("changelogShown", "no")
-                    Me.Invoke(appReplaceD(i))
-                Catch ex As Exception
+            Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
+                Dim success As Int16
+            Try
+                My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
+                success = 1
+            Catch ex As Exception
+                Console.WriteLine("Update failed!")
+                success = 0
+            Finally
+                If success = 1 Then
+                    If MsgBox("Foi transferida uma nova versão do Gestor de Redes Virtuais." & vbNewLine & vbNewLine & "Novidades da nova versão: " & vbNewLine & GlobalVariables.changelog & vbNewLine & vbNewLine & "Deseja reiniciar a app para atualizar?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " transferida com sucesso!") = MsgBoxResult.Yes Then
+                        Me.Invoke(appReplaceD(i, 0))
+                    Else
+                        Me.Invoke(updateCancelled)
+                        setValue("lastUpdateCheck", GlobalVariables.fakedate)
+                        GlobalVariables.updtQueue = 1
+                        GlobalVariables.updtCmd = i
+                    End If
+                Else
                     If MsgBox("Não foi possível transferir a nova versão automaticamente." & vbNewLine & "Deseja aceder ao site oficial para transferir manualmente?", MsgBoxStyle.YesNo, "Ocorreu um erro") = MsgBoxResult.Yes Then
                         Process.Start("http://emannxx.github.io/gestor-redes-virtuais")
                     End If
-                End Try
-                setValue("lastUpdateCheck", GlobalVariables.fakedate)
-            Else
-                Me.Invoke(updateCancelled)
-                setValue("lastUpdateCheck", GlobalVariables.fakedate)
-            End If
-
+                End If
+            End Try
         Else
             Dim todaysdate As String = String.Format("{0:dd-MM-yyyy}", DateTime.Now)
             Console.WriteLine("todaysdate is {0}", todaysdate.ToString)
