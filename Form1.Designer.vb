@@ -308,11 +308,11 @@ Partial Class Form1
         '
         Me.updateWarningLabel.AutoSize = True
         Me.updateWarningLabel.BackColor = System.Drawing.Color.IndianRed
-        Me.updateWarningLabel.Location = New System.Drawing.Point(62, 429)
+        Me.updateWarningLabel.Location = New System.Drawing.Point(33, 429)
         Me.updateWarningLabel.Name = "updateWarningLabel"
-        Me.updateWarningLabel.Size = New System.Drawing.Size(198, 13)
+        Me.updateWarningLabel.Size = New System.Drawing.Size(272, 13)
         Me.updateWarningLabel.TabIndex = 18
-        Me.updateWarningLabel.Text = "Está a utilizar uma versão desatualizada!"
+        Me.updateWarningLabel.Text = "Está a utilizar uma versão desatualizada! Reinicie a app."
         Me.updateWarningLabel.Visible = False
         '
         'NotifyIcon3

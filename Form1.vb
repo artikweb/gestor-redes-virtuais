@@ -76,7 +76,11 @@ Public Class Form1
         If getValue("autoNetwork") = "yes" Then
             Button1_Click(sender, e)
         End If
-        currentVersionLabel.Text = GlobalVariables.currentVersion
+        currentVersionLabel.Text = "v" + GlobalVariables.currentVersion
+        Dim yourToolTip = New ToolTip()
+        yourToolTip.IsBalloon = True
+        yourToolTip.ShowAlways = True
+        yourToolTip.SetToolTip(currentVersionLabel, "Gestor de Redes Virtuais - Versão " + GlobalVariables.currentVersion + "." + vbNewLine + "Clique para procurar atualizações.")
     End Sub
 
     'Minimize on Form Minimize
@@ -92,6 +96,7 @@ Public Class Form1
         End If
 
         If min Then
+            NotifyIcon3.ContextMenu.MenuItems.Item(index:=2).Enabled = GlobalVariables.item3State
             NotifyIcon3.Visible = True
             Me.Visible = False
             NotifyIcon3.ShowBalloonTip(5)
@@ -114,11 +119,17 @@ Public Class Form1
         NotifyIcon3.Visible = False
         Dim menu As New ContextMenu
         Dim menuItem1 As New MenuItem("Abrir GRV")
-        Dim menuItem2 As New MenuItem("Sair")
+        Dim menuItem2 As New MenuItem("Sobre o GRV")
+        Dim menuItem3 As New MenuItem("Reinicar Rede Virtual")
+        Dim menuItem4 As New MenuItem("Sair")
         menu.MenuItems.Add(menuItem1)
         menu.MenuItems.Add(menuItem2)
+        menu.MenuItems.Add(menuItem3)
+        menu.MenuItems.Add(menuItem4)
         AddHandler menuItem1.Click, AddressOf Me.menuItem1_Click
-        AddHandler menuItem2.Click, AddressOf Me.menuItem2_Click
+        AddHandler menuItem4.Click, AddressOf Me.menuItem2_Click
+        AddHandler menuItem3.Click, AddressOf Me.menuItem3_Click
+        AddHandler menuItem2.Click, AddressOf Me.menuItem4_Click
         NotifyIcon3.ContextMenu = menu
 
         If getValue("autoUpdate") = "yes" Then
@@ -136,12 +147,6 @@ Public Class Form1
             Else
                 Console.WriteLine("auto updater ran less than 5 days ago, skipping")
             End If
-        End If
-
-        If getValue("changelogShown") = "no" Or getValue("changelogShown") = "" Then
-            Dim args = New String() {"1"}
-            changelogworker.RunWorkerAsync(args)
-            setValue("changelogShown", "yes")
         End If
 
 
@@ -204,6 +209,7 @@ Public Class Form1
         Public Shared changelog As String
         Public Shared updtQueue As Int16
         Public Shared updtCmd As String
+        Public Shared item3State As Boolean = False
     End Class
 
 
@@ -300,6 +306,7 @@ Public Class Form1
                         If GlobalVariables.showPopup = 1 Then
                             MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
                         End If
+                        GlobalVariables.item3State = True
                         statebox.BackColor = Color.Lime
                         statelabel.Text = "Rede Iniciada"
                         GlobalVariables.networkIsUp = 1
@@ -317,6 +324,7 @@ Public Class Form1
         If GlobalVariables.showPopup = 1 Then
             MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
         End If
+        GlobalVariables.item3State = False
         statebox.BackColor = SystemColors.Control
         statelabel.Text = "Rede Inativa"
         GlobalVariables.networkIsUp = 0
@@ -390,12 +398,22 @@ Public Class Form1
         Me.Visible = True
         NotifyIcon3.Visible = False
     End Sub
+    Private Sub menuItem4_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        Form3.ShowDialog()
+    End Sub
     Private Sub menuItem2_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Me.Visible = True
         terminate()
     End Sub
+    Private Sub menuItem3_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        applyCommand("netsh wlan stop hostednetwork")
+        System.Threading.Thread.CurrentThread.Sleep(3000)
+        applyCommand("netsh wlan start hostednetwork")
+    End Sub
+
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        NotifyIcon3.ContextMenu.MenuItems.Item(index:=2).Enabled = GlobalVariables.item3State
         NotifyIcon3.Visible = True
         Me.Visible = False
         NotifyIcon3.ShowBalloonTip(5)
@@ -487,5 +505,16 @@ Public Class Form1
         Dim oStreamReader As System.IO.StreamReader = statusProcess.StandardOutput
         sOutput = oStreamReader.ReadToEnd()
         MsgBox("Em baixo encontra informações sobre o estado atual da rede e o número de dispositivos ligados à mesma." + vbNewLine + sOutput, 0, "Estado atual da rede")
+    End Sub
+
+    Private Sub currentVersionLabel_Click(sender As Object, e As EventArgs) Handles currentVersionLabel.Click
+        Dim path As String = Directory.GetCurrentDirectory()
+        Console.WriteLine("current path is {0}", path)
+        Dim args = New String() {"1", path}
+        Try
+            updaterWorker.RunWorkerAsync(args)
+        Catch ex As Exception
+            Console.WriteLine("updateworker is already running!")
+        End Try
     End Sub
 End Class
