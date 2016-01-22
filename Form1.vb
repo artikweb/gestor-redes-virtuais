@@ -19,7 +19,7 @@ Public Class Form1
             setValue("showPopup", "yes")
             setValue("telemetrySent", 4)
             MsgBox("Olá! Esta é a primeira vez que executa o Gestor de Redes Virtuais." + vbNewLine + "Por esse motivo é necessário configurar as placas de rede do seu computador para poder partilhar a ligação à internet. Ao clicar em OK será aberta uma página web com instruções passo-a-passo para configurar tudo correctamente." + vbNewLine + "Poderá abrir esta página mais tarde ao clicar em:" + vbNewLine + "Ajuda -> Configuração Extra -> Configurar placa de rede", MessageBoxIcon.Information, "Primeira utilização")
-            Process.Start("http: //emanuel-alves.com/GRV/config1.html")
+            Process.Start("http://emanuel-alves.com/GRV/config1.html")
         End If
 
             If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
@@ -56,7 +56,7 @@ Public Class Form1
             Case PowerModes.Resume
                 If GlobalVariables.networkIsUp = 1 Then
                     applyCommand("netsh wlan stop hostednetwork")
-                    System.Threading.Thread.CurrentThread.Sleep(2000)
+                    System.Threading.Thread.CurrentThread.Sleep(5000)
                     applyCommand("netsh wlan start hostednetwork")
                 End If
         End Select
@@ -96,10 +96,7 @@ Public Class Form1
         End If
 
         If min Then
-            NotifyIcon3.ContextMenu.MenuItems.Item(index:=2).Enabled = GlobalVariables.item3State
-            NotifyIcon3.Visible = True
-            Me.Visible = False
-            NotifyIcon3.ShowBalloonTip(5)
+            minimize()
         End If
     End Sub
 
@@ -210,6 +207,7 @@ Public Class Form1
         Public Shared updtQueue As Int16
         Public Shared updtCmd As String
         Public Shared item3State As Boolean = False
+        Public Shared notificationSeen As Boolean = False
     End Class
 
 
@@ -224,7 +222,18 @@ Public Class Form1
         Return localvar
     End Function
 
-    Function terminate()
+    Function minimize() As Integer
+        NotifyIcon3.ContextMenu.MenuItems.Item(index:=2).Enabled = GlobalVariables.item3State
+        NotifyIcon3.Visible = True
+        Me.Visible = False
+        If GlobalVariables.notificationSeen = False Then
+            NotifyIcon3.ShowBalloonTip(5)
+            GlobalVariables.notificationSeen = True
+        End If
+        Return vbNull
+    End Function
+
+    Function terminate() As String 
         If GlobalVariables.networkIsUp = 1 Then
             If MsgBox("A rede virtual está inicializada, ao sair esta será desligada." & vbNewLine & "Deseja sair?", MsgBoxStyle.YesNo, "Atenção") = MsgBoxResult.Yes Then
                 applyCommand("netsh wlan stop hostednetwork")
@@ -407,16 +416,13 @@ Public Class Form1
     End Sub
     Private Sub menuItem3_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         applyCommand("netsh wlan stop hostednetwork")
-        System.Threading.Thread.CurrentThread.Sleep(3000)
+        System.Threading.Thread.CurrentThread.Sleep(5000)
         applyCommand("netsh wlan start hostednetwork")
     End Sub
 
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        NotifyIcon3.ContextMenu.MenuItems.Item(index:=2).Enabled = GlobalVariables.item3State
-        NotifyIcon3.Visible = True
-        Me.Visible = False
-        NotifyIcon3.ShowBalloonTip(5)
+        minimize()
     End Sub
 
     Private Sub NovidadesDestaVersãoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NovidadesDestaVersãoToolStripMenuItem.Click
