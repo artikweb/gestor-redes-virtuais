@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.Win32
 Imports System.IO
 Imports System.Reflection
+Imports System.Net
 'Gestor de Redes Virtuais para Windows 8 e Windows 10'
 'Desenvolvido por Emanuel Alves'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
@@ -22,7 +23,7 @@ Public Class Form1
             Process.Start("http://emanuel-alves.com/GRV/config1.html")
         End If
 
-            If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
+        If (getValue("autoUpdate") = "" Or getValue("showPopup") = "" Or getValue("autoNetwork") = "") Then
             setValue("autoUpdate", "yes")
             setValue("autoNetwork", "no")
             setValue("showPopup", "yes")
@@ -176,7 +177,7 @@ Public Class Form1
         Dim args As Object() = DirectCast(e.Argument, Object())
         Dim show As Int32 = CInt(args(0))
         Console.WriteLine("Show is {0}", show)
-        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/changelog.txt")
+        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/changelog-p2.txt")
         Dim response As System.Net.HttpWebResponse
         Dim sr As System.IO.StreamReader
         Dim changelog As String
@@ -233,12 +234,16 @@ Public Class Form1
         Return vbNull
     End Function
 
-    Function terminate() As String 
+    Function terminate() As String
         If GlobalVariables.networkIsUp = 1 Then
             If MsgBox("A rede virtual está inicializada, ao sair esta será desligada." & vbNewLine & "Deseja sair?", MsgBoxStyle.YesNo, "Atenção") = MsgBoxResult.Yes Then
                 applyCommand("netsh wlan stop hostednetwork")
                 RemoveHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
-                Application.Exit()
+                If GlobalVariables.updtQueue = 1 Then
+                    appReplaceD(GlobalVariables.updtCmd, 1)
+                Else
+                    Application.Exit()
+                End If
             Else
                 Return ""
             End If
@@ -438,7 +443,7 @@ Public Class Form1
         Dim args As Object() = DirectCast(e.Argument, Object())
         Dim alert As String = CInt(args(0))
         Dim path As String = CStr(args(1))
-        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/latestversion.txt")
+        Dim request As System.Net.HttpWebRequest = System.Net.HttpWebRequest.Create("http://emanuel-alves.com/GRV/latestversion-p2.txt")
         Dim response As System.Net.HttpWebResponse
         Dim sr As System.IO.StreamReader
         Dim newestversion As String
@@ -458,9 +463,11 @@ Public Class Form1
             changelogworker.RunWorkerAsync(chgArgs)
             System.Threading.Thread.CurrentThread.Sleep(3000)
             Dim i As String = path + "\Gestor De Redes Virtuais_" + newestversion + ".exe"
-                Dim success As Int16
+            Dim success As Int16
             Try
-                My.Computer.Network.DownloadFile("http://emanuel-alves.com/GRV/grv-latest.exe", i, False, 5000)
+                Dim fileReader As New WebClient()
+                Dim fileAddress = "http://emanuel-alves.com/GRV/grv-latest-2.exe"
+                fileReader.DownloadFile(fileAddress, i)
                 success = 1
             Catch ex As Exception
                 Console.WriteLine("Update failed!")
