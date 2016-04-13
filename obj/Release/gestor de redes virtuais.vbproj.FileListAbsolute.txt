@@ -36,3 +36,4 @@ d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de red
 \\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form3.resources
 \\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
 \\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache
+\\emannxx-asus\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form4.resources

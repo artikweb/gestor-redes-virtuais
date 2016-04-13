@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.Win32
 Imports System.IO
 Imports System.Reflection
+Imports System.Text.RegularExpressions
 Imports System.Net
 'Gestor de Redes Virtuais para Windows 8 e Windows 10'
 'Desenvolvido por Emanuel Alves'
@@ -45,7 +46,7 @@ Public Class Form1
             GlobalVariables.showPopup = 0
         End If
         AddHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
-        BackgroundWorker1.RunWorkerAsync()
+        initBgWorker.RunWorkerAsync()
 
     End Sub
 
@@ -101,7 +102,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+    Private Sub BackgroundWorker1_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles initBgWorker.DoWork
         Dim _imageStream As Stream
         Dim _assembly As [Assembly]
         _assembly = [Assembly].GetExecutingAssembly()
@@ -209,6 +210,8 @@ Public Class Form1
         Public Shared updtCmd As String
         Public Shared item3State As Boolean = False
         Public Shared notificationSeen As Boolean = False
+        Public Shared network As String = ""
+        Public Shared password As String = ""
     End Class
 
 
@@ -320,10 +323,8 @@ Public Class Form1
                         If GlobalVariables.showPopup = 1 Then
                             MsgBox("Rede virtual inicializada com sucesso!", MessageBoxIcon.Information)
                         End If
-                        GlobalVariables.item3State = True
-                        statebox.BackColor = Color.Lime
-                        statelabel.Text = "Rede Iniciada"
-                        GlobalVariables.networkIsUp = 1
+                        updateNetworkState(1)
+
                     End If
                 Else
                     Console.WriteLine("that didnt work either")
@@ -338,10 +339,7 @@ Public Class Form1
         If GlobalVariables.showPopup = 1 Then
             MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
         End If
-        GlobalVariables.item3State = False
-        statebox.BackColor = SystemColors.Control
-        statelabel.Text = "Rede Inativa"
-        GlobalVariables.networkIsUp = 0
+        updateNetworkState(0)
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -411,6 +409,11 @@ Public Class Form1
     Private Sub menuItem1_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Me.Visible = True
         NotifyIcon3.Visible = False
+        Try
+            checkState.RunWorkerAsync()
+        Catch ex As Exception
+            Console.WriteLine("checkstate worker is already running!")
+        End Try
     End Sub
     Private Sub menuItem4_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Form3.ShowDialog()
@@ -421,8 +424,10 @@ Public Class Form1
     End Sub
     Private Sub menuItem3_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         applyCommand("netsh wlan stop hostednetwork")
+        updateNetworkState(0)
         System.Threading.Thread.CurrentThread.Sleep(5000)
         applyCommand("netsh wlan start hostednetwork")
+        updateNetworkState(1)
     End Sub
 
 
@@ -529,5 +534,67 @@ Public Class Form1
         Catch ex As Exception
             Console.WriteLine("updateworker is already running!")
         End Try
+    End Sub
+
+    Public Delegate Sub cgState(status As Int16)
+    Dim chgState As cgState = AddressOf updateNetworkState
+
+    Function updateNetworkState(state As Int16)
+        If state = 1 Then
+            Console.WriteLine("changing state")
+            GlobalVariables.item3State = True
+            statebox.BackColor = Color.Lime
+            statelabel.Text = "Rede Iniciada"
+            GlobalVariables.networkIsUp = 1
+        Else
+            Console.WriteLine("changing state")
+            GlobalVariables.item3State = False
+            statebox.BackColor = SystemColors.Control
+            statelabel.Text = "Rede Inativa"
+            GlobalVariables.networkIsUp = 0
+        End If
+    End Function
+
+    Private Sub checkState_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles checkState.DoWork
+        Dim statusProcess As New Process()
+        Dim statusSettings As New ProcessStartInfo()
+        statusSettings.FileName = "cmd"
+        statusSettings.Verb = "runas"
+        statusSettings.WindowStyle = ProcessWindowStyle.Hidden
+        statusSettings.Arguments = "cmd /C netsh wlan show hostednetwork"
+        statusSettings.RedirectStandardOutput = True
+        statusSettings.UseShellExecute = False
+        statusProcess.StartInfo = statusSettings
+        statusProcess.Start()
+        Dim sOutput As String
+        Dim oStreamReader As System.IO.StreamReader = statusProcess.StandardOutput
+        sOutput = oStreamReader.ReadToEnd()
+
+        Dim regex As Regex = New Regex("(Started)")
+        Dim match As Match = regex.Match(sOutput)
+        If match.Success Then
+            Console.WriteLine("found")
+            Me.Invoke(updateNetworkState(1))
+        Else
+            Console.WriteLine("not found")
+            Me.Invoke(updateNetworkState(0))
+        End If
+        Return
+    End Sub
+
+    Private Sub CódigoQRToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CódigoQRToolStripMenuItem.Click
+        If ssid.Text IsNot String.Empty And password.Text IsNot String.Empty Then
+            If GlobalVariables.networkIsUp = 1 Then
+                GlobalVariables.network = ssid.Text
+                GlobalVariables.password = password.Text
+                Form4.Show()
+            Else
+                MsgBox("A rede virtual não está inicializada.")
+            End If
+        Else
+                MsgBox("Por favor preencha os campos 'Nome da Rede' e 'Password' ou utilize os dados padrão da aplicação")
+        End If
+
+
     End Sub
 End Class

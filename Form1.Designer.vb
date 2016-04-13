@@ -35,6 +35,7 @@ Partial Class Form1
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FicheiroToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CódigoQRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LimparTudoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SairToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EstadoAtualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -57,11 +58,12 @@ Partial Class Form1
         Me.updateWarningLabel = New System.Windows.Forms.Label()
         Me.NotifyIcon3 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.Button6 = New System.Windows.Forms.Button()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.initBgWorker = New System.ComponentModel.BackgroundWorker()
         Me.changelogworker = New System.ComponentModel.BackgroundWorker()
         Me.updaterWorker = New System.ComponentModel.BackgroundWorker()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.checkState = New System.ComponentModel.BackgroundWorker()
         Me.GroupBox1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.statebox.SuspendLayout()
@@ -150,7 +152,7 @@ Partial Class Form1
         '
         'FicheiroToolStripMenuItem
         '
-        Me.FicheiroToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AlterarConfiguraçãoPadrãoToolStripMenuItem, Me.LimparTudoToolStripMenuItem, Me.SairToolStripMenuItem})
+        Me.FicheiroToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AlterarConfiguraçãoPadrãoToolStripMenuItem, Me.CódigoQRToolStripMenuItem, Me.LimparTudoToolStripMenuItem, Me.SairToolStripMenuItem})
         Me.FicheiroToolStripMenuItem.Name = "FicheiroToolStripMenuItem"
         Me.FicheiroToolStripMenuItem.Size = New System.Drawing.Size(64, 20)
         Me.FicheiroToolStripMenuItem.Text = "Aplicação"
@@ -160,6 +162,12 @@ Partial Class Form1
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Name = "AlterarConfiguraçãoPadrãoToolStripMenuItem"
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Text = "Definições"
+        '
+        'CódigoQRToolStripMenuItem
+        '
+        Me.CódigoQRToolStripMenuItem.Name = "CódigoQRToolStripMenuItem"
+        Me.CódigoQRToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.CódigoQRToolStripMenuItem.Text = "Código QR"
         '
         'LimparTudoToolStripMenuItem
         '
@@ -325,6 +333,7 @@ Partial Class Form1
         '
         'Button6
         '
+        Me.Button6.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.Button6.Location = New System.Drawing.Point(171, 381)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(152, 23)
@@ -332,7 +341,7 @@ Partial Class Form1
         Me.Button6.Text = "Minimizar"
         Me.Button6.UseVisualStyleBackColor = True
         '
-        'BackgroundWorker1
+        'initBgWorker
         '
         '
         'changelogworker
@@ -350,10 +359,14 @@ Partial Class Form1
         Me.Label3.TabIndex = 6
         Me.Label3.Text = "1- Introduza o SSID/Password ou utilize a configuração padrão"
         '
+        'checkState
+        '
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.Button6
         Me.ClientSize = New System.Drawing.Size(337, 430)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.updateWarningLabel)
@@ -419,10 +432,12 @@ Partial Class Form1
     Friend WithEvents NotifyIcon3 As NotifyIcon
     Friend WithEvents Button6 As Button
     Friend WithEvents NovidadesDestaVersãoToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents initBgWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents changelogworker As System.ComponentModel.BackgroundWorker
     Friend WithEvents updaterWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents EstadoAtualToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label3 As Label
+    Friend WithEvents checkState As System.ComponentModel.BackgroundWorker
+    Friend WithEvents CódigoQRToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -132,6 +132,7 @@ Partial Class defaultconfig
         '
         'defaultconfig
         '
+        Me.AcceptButton = Me.Button1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(336, 270)
@@ -144,7 +145,9 @@ Partial Class defaultconfig
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "defaultconfig"
+        Me.ShowInTaskbar = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.Text = "Definições"
         Me.TopMost = True
