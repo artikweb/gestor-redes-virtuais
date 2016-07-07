@@ -6,7 +6,7 @@ Imports System.Net
 
 Public Class Form4
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim url As String = "http://qrcode.tec-it.com/API/QRCode?data=WIFI%3aT%3aWPA%3bS%3a" + Form1.GlobalVariables.network + "%3bP%3a" + Form1.GlobalVariables.password + "%3b%3b&size=small"
+        Dim url As String = "http://qrcode.tec-it.com/API/QRCode?data=WIFI%3aT%3aWPA%3bS%3a" + GlobalVariables.network + "%3bP%3a" + GlobalVariables.password + "%3b%3b&size=small"
         Try
             Dim tClient As WebClient = New WebClient
             Dim tImage As Bitmap = Bitmap.FromStream(New MemoryStream(tClient.DownloadData(url)))
@@ -20,6 +20,10 @@ Public Class Form4
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Me.Close()
+        Close()
+    End Sub
+
+    Private Sub Form1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then Me.Close()
     End Sub
 End Class
