@@ -10,4 +10,6 @@
     Public Shared notificationSeen As Boolean = False
     Public Shared network As String = ""
     Public Shared password As String = ""
+    Public Shared _lang = New Dictionary(Of String, String)
+
 End Class

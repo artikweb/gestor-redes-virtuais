@@ -124,9 +124,9 @@ Partial Class Form1
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(9, 52)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(128, 13)
+        Me.Label4.Size = New System.Drawing.Size(132, 13)
         Me.Label4.TabIndex = 7
-        Me.Label4.Text = "2 - Clique em Iniciar Rede"
+        Me.Label4.Text = "2 - Clique em 'Iniciar Rede'"
         '
         'GroupBox1
         '
@@ -154,87 +154,87 @@ Partial Class Form1
         '
         Me.FicheiroToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AlterarConfiguraçãoPadrãoToolStripMenuItem, Me.CódigoQRToolStripMenuItem, Me.LimparTudoToolStripMenuItem, Me.SairToolStripMenuItem})
         Me.FicheiroToolStripMenuItem.Name = "FicheiroToolStripMenuItem"
-        Me.FicheiroToolStripMenuItem.Size = New System.Drawing.Size(64, 20)
+        Me.FicheiroToolStripMenuItem.Size = New System.Drawing.Size(71, 20)
         Me.FicheiroToolStripMenuItem.Text = "Aplicação"
         '
         'AlterarConfiguraçãoPadrãoToolStripMenuItem
         '
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Name = "AlterarConfiguraçãoPadrãoToolStripMenuItem"
-        Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
         Me.AlterarConfiguraçãoPadrãoToolStripMenuItem.Text = "Definições"
         '
         'CódigoQRToolStripMenuItem
         '
         Me.CódigoQRToolStripMenuItem.Name = "CódigoQRToolStripMenuItem"
-        Me.CódigoQRToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.CódigoQRToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
         Me.CódigoQRToolStripMenuItem.Text = "Código QR"
         '
         'LimparTudoToolStripMenuItem
         '
         Me.LimparTudoToolStripMenuItem.Name = "LimparTudoToolStripMenuItem"
-        Me.LimparTudoToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.LimparTudoToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
         Me.LimparTudoToolStripMenuItem.Text = "Limpar tudo"
         '
         'SairToolStripMenuItem
         '
         Me.SairToolStripMenuItem.Name = "SairToolStripMenuItem"
-        Me.SairToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
+        Me.SairToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
         Me.SairToolStripMenuItem.Text = "Sair"
         '
         'EstadoAtualToolStripMenuItem
         '
         Me.EstadoAtualToolStripMenuItem.Name = "EstadoAtualToolStripMenuItem"
-        Me.EstadoAtualToolStripMenuItem.Size = New System.Drawing.Size(80, 20)
+        Me.EstadoAtualToolStripMenuItem.Size = New System.Drawing.Size(85, 20)
         Me.EstadoAtualToolStripMenuItem.Text = "Estado Atual"
         '
         'AjudaToolStripMenuItem
         '
         Me.AjudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SobreToolStripMenuItem, Me.ContactoToolStripMenuItem1, Me.ActualizaçãoToolStripMenuItem, Me.NovidadesDestaVersãoToolStripMenuItem, Me.ContactoToolStripMenuItem})
         Me.AjudaToolStripMenuItem.Name = "AjudaToolStripMenuItem"
-        Me.AjudaToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
+        Me.AjudaToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
         Me.AjudaToolStripMenuItem.Text = "Ajuda"
         '
         'SobreToolStripMenuItem
         '
         Me.SobreToolStripMenuItem.Name = "SobreToolStripMenuItem"
-        Me.SobreToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.SobreToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.SobreToolStripMenuItem.Text = "Sobre"
         '
         'ContactoToolStripMenuItem1
         '
         Me.ContactoToolStripMenuItem1.Name = "ContactoToolStripMenuItem1"
-        Me.ContactoToolStripMenuItem1.Size = New System.Drawing.Size(190, 22)
+        Me.ContactoToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
         Me.ContactoToolStripMenuItem1.Text = "Contacto"
         '
         'ActualizaçãoToolStripMenuItem
         '
         Me.ActualizaçãoToolStripMenuItem.Name = "ActualizaçãoToolStripMenuItem"
-        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.ActualizaçãoToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.ActualizaçãoToolStripMenuItem.Text = "Procurar Atualização"
         '
         'NovidadesDestaVersãoToolStripMenuItem
         '
         Me.NovidadesDestaVersãoToolStripMenuItem.Name = "NovidadesDestaVersãoToolStripMenuItem"
-        Me.NovidadesDestaVersãoToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.NovidadesDestaVersãoToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.NovidadesDestaVersãoToolStripMenuItem.Text = "Novidades desta versão"
         '
         'ContactoToolStripMenuItem
         '
         Me.ContactoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigurarPlacaDeRedeToolStripMenuItem, Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem})
         Me.ContactoToolStripMenuItem.Name = "ContactoToolStripMenuItem"
-        Me.ContactoToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.ContactoToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.ContactoToolStripMenuItem.Text = "Configuração Extra"
         '
         'ConfigurarPlacaDeRedeToolStripMenuItem
         '
         Me.ConfigurarPlacaDeRedeToolStripMenuItem.Name = "ConfigurarPlacaDeRedeToolStripMenuItem"
-        Me.ConfigurarPlacaDeRedeToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
+        Me.ConfigurarPlacaDeRedeToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.ConfigurarPlacaDeRedeToolStripMenuItem.Text = "Configurar placa de rede"
         '
         'VerificarCompatibilidadeDoSistemaToolStripMenuItem
         '
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Name = "VerificarCompatibilidadeDoSistemaToolStripMenuItem"
-        Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Size = New System.Drawing.Size(243, 22)
+        Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.VerificarCompatibilidadeDoSistemaToolStripMenuItem.Text = "Verificar compatibilidade do sistema"
         '
         'Button3
@@ -355,9 +355,9 @@ Partial Class Form1
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(9, 35)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(305, 13)
+        Me.Label3.Size = New System.Drawing.Size(315, 13)
         Me.Label3.TabIndex = 6
-        Me.Label3.Text = "1- Introduza o SSID/Password ou utilize a configuração padrão"
+        Me.Label3.Text = "1 - Introduza o SSID + Password ou utilize a configuração padrão"
         '
         'checkState
         '

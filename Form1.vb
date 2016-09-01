@@ -3,6 +3,10 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports System.Net
+Imports gestor_de_redes_virtuais.GRVHelperFunctions
+Imports gestor_de_redes_virtuais.GlobalVariables
+
+
 'Gestor de Redes Virtuais para Windows 8 e Windows 10'
 'Desenvolvido por Emanuel Alves'
 'Código fonte disponível em https://github.com/emannxx/Gestor-de-Redes-Virtuais'
@@ -10,7 +14,7 @@ Imports System.Net
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        GRVHelperFunctions.GRVInit(False)
+        GRVInit(False)
         AddHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
         initBgWorker.RunWorkerAsync()
 
@@ -20,10 +24,10 @@ Public Class Form1
 
         Select Case e.Mode
             Case PowerModes.Resume
-                If GlobalVariables.networkIsUp = 1 Then
-                    GRVHelperFunctions.applyCommand("netsh wlan stop hostednetwork")
+                If networkIsUp = 1 Then
+                    applyCommand("netsh wlan stop hostednetwork")
                     System.Threading.Thread.CurrentThread.Sleep(10000)
-                    GRVHelperFunctions.applyCommand("netsh wlan start hostednetwork")
+                    applyCommand("netsh wlan start hostednetwork")
                 End If
         End Select
 
@@ -39,11 +43,12 @@ Public Class Form1
     End Property
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim autoNetwork = GRVHelperFunctions.getValue("autoNetwork")
+        applyLang()
+        Dim autoNetwork = getValue("autoNetwork")
         If autoNetwork = "yes" Then
             Button1_Click(sender, e)
         ElseIf autoNetwork IsNot "no" Or autoNetwork Is Nothing Then
-            GRVHelperFunctions.GRVInit(True)
+            GRVInit(True)
         End If
         currentVersionLabel.Text = "v" + GlobalVariables.currentVersion
         Dim yourToolTip = New ToolTip()
@@ -98,10 +103,10 @@ Public Class Form1
         AddHandler menuItem2.Click, AddressOf Me.menuItem4_Click
         NotifyIcon3.ContextMenu = menu
 
-        If GRVHelperFunctions.getValue("autoUpdate") = "yes" Then
-            Dim latestCheckDate As String = GRVHelperFunctions.getValue("lastUpdateCheck")
+        If getValue("autoUpdate") = "yes" Then
+            Dim latestCheckDate As String = getValue("lastUpdateCheck")
             If latestCheckDate = "" Then
-                GRVHelperFunctions.setValue("lastUpdateCheck", GlobalVariables.fakedate)
+                setValue("lastUpdateCheck", GlobalVariables.fakedate)
                 latestCheckDate = GlobalVariables.fakedate
             End If
             Dim latestCheck As Date = Date.ParseExact(latestCheckDate, "dd-MM-yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
@@ -171,7 +176,7 @@ Public Class Form1
     Dim updateCancelled As raiseWarn = AddressOf raiseWarning
 
     Public Delegate Sub replacetheapp(newPath As String, swtch As Int16)
-    Dim appReplace As replacetheapp = AddressOf GRVHelperFunctions.appReplaceD
+    Dim appReplace As replacetheapp = AddressOf appReplaceD
 
     Function raiseWarning()
         Me.Height += 20
@@ -189,9 +194,9 @@ Public Class Form1
                 Dim ssidVar As String = ssid.Text
                 Dim paswVar As String = password.Text
                 Dim networkSettingValsCMD As String = "netsh wlan set hostednetwork mode=allow ssid=" + ssidVar + " key=" + paswVar
-                Dim settingErrorCheck As Integer = GRVHelperFunctions.applyCommand(networkSettingValsCMD)
+                Dim settingErrorCheck As Integer = applyCommand(networkSettingValsCMD)
                 If (settingErrorCheck <> 1) Then
-                    Dim startupErrorCheck As Integer = GRVHelperFunctions.applyCommand("netsh wlan start hostednetwork")
+                    Dim startupErrorCheck As Integer = applyCommand("netsh wlan start hostednetwork")
                     If (startupErrorCheck = 1) Then
                         Console.WriteLine("that didnt work")
                         MsgBox("Não foi possível inicializar a rede." & vbNewLine & "Certifique-se que a placa WiFi está activada e que o seu sistema tem suporte para redes virtuais.", MessageBoxIcon.Error, "Ocorreu um erro")
@@ -211,7 +216,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        GRVHelperFunctions.applyCommand("netsh wlan stop hostednetwork")
+        applyCommand("netsh wlan stop hostednetwork")
         If GlobalVariables.showPopup = 1 Then
             MsgBox("Rede virtual desligada com sucesso!", MessageBoxIcon.Information)
         End If
@@ -219,8 +224,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        ssid.Text = GRVHelperFunctions.getValue("ssidPadrao")
-        password.Text = GRVHelperFunctions.getValue("pswPadrao")
+        ssid.Text = getValue("ssidPadrao")
+        password.Text = getValue("pswPadrao")
     End Sub
 
     Private Sub SobreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SobreToolStripMenuItem.Click
@@ -228,7 +233,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        GRVHelperFunctions.applyCommand("ncpa.cpl")
+        applyCommand("ncpa.cpl")
     End Sub
 
     Private Sub LimparTudoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LimparTudoToolStripMenuItem.Click
@@ -249,7 +254,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        GRVHelperFunctions.terminate()
+        terminate()
     End Sub
 
     Private Sub ConfigurarPlacaDeRedeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConfigurarPlacaDeRedeToolStripMenuItem.Click
@@ -296,13 +301,13 @@ Public Class Form1
     End Sub
     Private Sub menuItem2_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Me.Visible = True
-        GRVHelperFunctions.terminate()
+        terminate()
     End Sub
     Private Sub menuItem3_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        GRVHelperFunctions.applyCommand("netsh wlan stop hostednetwork")
+        applyCommand("netsh wlan stop hostednetwork")
         updateNetworkState(0)
         System.Threading.Thread.CurrentThread.Sleep(5000)
-        GRVHelperFunctions.applyCommand("netsh wlan start hostednetwork")
+        applyCommand("netsh wlan start hostednetwork")
         updateNetworkState(1)
     End Sub
 
@@ -356,10 +361,10 @@ Public Class Form1
             Finally
                 If success = 1 Then
                     If MsgBox("Foi transferida uma nova versão do Gestor de Redes Virtuais." & vbNewLine & vbNewLine & "Novidades da nova versão: " & vbNewLine & GlobalVariables.changelog & vbNewLine & vbNewLine & "Deseja reiniciar a app para atualizar?", MsgBoxStyle.YesNo, "Nova versão " + newestversion + " transferida com sucesso!") = MsgBoxResult.Yes Then
-                        Me.Invoke(GRVHelperFunctions.appReplaceD(i, 0))
+                        Me.Invoke(appReplaceD(i, 0))
                     Else
                         Me.Invoke(updateCancelled)
-                        GRVHelperFunctions.setValue("lastUpdateCheck", GlobalVariables.fakedate)
+                        setValue("lastUpdateCheck", GlobalVariables.fakedate)
                         GlobalVariables.updtQueue = 1
                         GlobalVariables.updtCmd = i
                     End If
@@ -372,7 +377,7 @@ Public Class Form1
         Else
             Dim todaysdate As String = String.Format("{0:dd-MM-yyyy}", DateTime.Now)
             Console.WriteLine("todaysdate is {0}", todaysdate.ToString)
-            GRVHelperFunctions.setValue("lastUpdateCheck", todaysdate)
+            setValue("lastUpdateCheck", todaysdate)
             If alert = "1" Then
                 MsgBox("Está a utilizar a versão mais recente do Gestor de Redes Virtuais.", MessageBoxIcon.Information, "Nenhuma Atualização Disponível")
             End If
@@ -468,9 +473,47 @@ Public Class Form1
                 MsgBox("A rede virtual não está inicializada.")
             End If
         Else
-                MsgBox("Por favor preencha os campos 'Nome da Rede' e 'Password' ou utilize os dados padrão da aplicação")
+            MsgBox("Por favor preencha os campos 'Nome da Rede' e 'Password' ou utilize os dados padrão da aplicação")
+        End If
+    End Sub
+
+    Private Sub applyLang()
+        Dim setLang = getValue("lang")
+        If (setLang Is Nothing) Then
+            setValue("lang", "en")
+            setLang = "en"
         End If
 
+        If (setLang = "en") Then
+            Label3.Text = "1 - Insert your desired SSID + Password or use the default config"
+            Label4.Text = "2 - Click 'Start Network'"
+            GroupBox1.Text = "Network settings"
+            Label1.Text = "Network Name (SSID)"
+            Label2.Text = "Network Password (WPA2)"
+            Button1.Text = "Start Network"
+            Button2.Text = "Stop Network"
+            Button3.Text = "Apply default network config"
+            Button5.Text = "Open Network Cards (Control Panel)"
+            Button4.Text = "Exit"
+            Button6.Text = "Minimize"
+            Label5.Text = "Developed By"
+            FicheiroToolStripMenuItem.Text = "App"
+            EstadoAtualToolStripMenuItem.Text = "Network State"
+            AjudaToolStripMenuItem.Text = "Help"
+            AlterarConfiguraçãoPadrãoToolStripMenuItem.Text = "Settings"
+            CódigoQRToolStripMenuItem.Text = "QR Code"
+            LimparTudoToolStripMenuItem.Text = "Clean fields"
+            SairToolStripMenuItem.Text = "Exit"
+            SobreToolStripMenuItem.Text = "About"
+            ContactoToolStripMenuItem1.Text = "Contacts"
+            ActualizaçãoToolStripMenuItem.Text = "Search for Updates"
+            NovidadesDestaVersãoToolStripMenuItem.Text = "What's new?"
+            ContactoToolStripMenuItem.Text = "Extra Configurations"
+            ConfigurarPlacaDeRedeToolStripMenuItem.Text = "Config Network Card"
+            VerificarCompatibilidadeDoSistemaToolStripMenuItem.Text = "Check system compatibility"
+            Me.Text = "Virtual Network Manager"
+            _lang.Add("elo", "helo") 'test to create a _lang array
 
+        End If
     End Sub
 End Class

@@ -37,3 +37,17 @@ d:\Documentos\Visual Studio 2015\Projects\gestor de redes virtuais\gestor de red
 \\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
 \\Emannxx-ASUS\GitHub\gestor-redes-virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache
 \\emannxx-asus\GitHub\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form4.resources
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.exe.config
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\Gestor de Redes Virtuais.exe
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\Gestor de Redes Virtuais.xml
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\Gestor de Redes Virtuais.pdb
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.exe
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.pdb
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\bin\Release\Gestor de Redes Virtuais.xml
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor de redes virtuais.vbprojResolveAssemblyReference.cache
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form1.resources
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.defaultconfig.resources
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form3.resources
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Form4.resources
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor_de_redes_virtuais.Resources.resources
+C:\Users\etalves\Source\Repos\gestor-redes-virtuais\obj\Release\gestor de redes virtuais.vbproj.GenerateResource.Cache
